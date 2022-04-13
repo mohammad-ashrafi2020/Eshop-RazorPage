@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Infrastructure\" />
     <Folder Include="Models\Auth\" />
+    <Folder Include="Models\Banners\" />
     <Folder Include="Services\Auth\" />
     <Folder Include="Services\Banners\" />
   </ItemGroup>
