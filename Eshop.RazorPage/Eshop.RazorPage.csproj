@@ -10,8 +10,16 @@
     <Folder Include="Infrastructure\" />
     <Folder Include="Models\Auth\" />
     <Folder Include="Models\Banners\" />
+    <Folder Include="Models\Sliders\" />
+    <Folder Include="Models\Roles\" />
+    <Folder Include="Models\Products\Commands\" />
+    <Folder Include="Models\Users\Commands\" />
     <Folder Include="Services\Auth\" />
     <Folder Include="Services\Banners\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
