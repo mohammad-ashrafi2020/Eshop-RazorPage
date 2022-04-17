@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/apexcharts.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jquery.classycountdown.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/nouislider.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/sweetalert2.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/select2.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="/assets/css/colors/red.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <partial name="_Header" />
+
+        <partial name="_ResponsiveHeader" />
+
+        <main class="page-content">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </main>
+
+        <div class="page-loader">
+            <div class="page-loader-content">
+                <div class="logo-area">
+                    <img src="/assets/images/logo.png" alt="loader">
+                </div>
+                <span class="loader"></span>
+            </div>
+        </div>
+        <partial name="_Footer" />
+    </div>
+
+
+    <script src="/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="/assets/js/plugins/popper.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/apexcharts.min.js"></script>
+    <script src="/assets/js/plugins/jquery.ez-plus.js"></script>
+    <script src="/assets/js/plugins/jquery.knob.js"></script>
+    <script src="/assets/js/plugins/jquery.throttle.js"></script>
+    <script src="/assets/js/plugins/jquery.classycountdown.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nicescroll.min.js"></script>
+    <script src="/assets/js/plugins/nouislider.min.js"></script>
+    <script src="/assets/js/plugins/sweetalert2.all.min.js"></script>
+    <script src="/assets/js/plugins/select2.full.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/ResizeSensor.min.js"></script>
+    <script src="/assets/js/plugins/theia-sticky-sidebar.min.js"></script>
+    <script src="/assets/js/plugins/wNumb.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/custom.js"></script>
+    @RenderSection("Scripts",false)
+    <script>
+        $(document).ready(function () {
+            $('#countdown--offer-slider').ClassyCountdown({
+                theme: "black",
+                end: $.now() + 645600,
+                labels: false,
+            });
+        });
+    </script>
+</body>
+
+</html>

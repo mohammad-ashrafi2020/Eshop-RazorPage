@@ -1,0 +1,131 @@
+.border-bottom-dt {
+    color: #c51162 !important;
+    border-bottom: 1px dashed #c51162;
+}
+
+.btn.btn-primary {
+    background-color: #c51162 !important;
+    border-color: #c51162;
+}
+
+.product-card .product-card-bottom .btn-add-to-cart {
+    background: #c51162;
+}
+
+.product-card .product-card-bottom .btn-add-to-cart.btn-add-to-cart-outline {
+    border: 1px solid #c51162;
+    color: #c51162;
+}
+
+.product-card .product-price {
+    color: #c51162;
+}
+
+.product-card .product-price:after {
+    background: #c51162;
+}
+
+.blog-card .blog-card-title h2 a:hover {
+    color: #c51162;
+}
+
+.blog-card .blog-card-footer .author a:hover {
+    color: #c51162;
+}
+
+.product-item--file.product-item--file-horizontal .product-item-body::after {
+    background: #c51162;
+}
+
+header.page-header .bottom-page-header .search-box form i {
+    color: #c51162;
+}
+
+header.page-header .bottom-page-header .search-box .search-result .search-result-list li a:hover {
+    color: #c51162;
+}
+
+header.page-header .bottom-page-header .search-box .search-result .search-result-most-view li a:hover {
+    background-color: #c51162;
+}
+
+header.page-header .bottom-page-header .user-items .user-item>a span.bag-items-number {
+    background-color: #c51162;
+}
+
+header.page-header .bottom-page-header .user-items .user-item.cart-list>ul li.cart-footer .btn-cart {
+    background-color: #c51162;
+}
+
+header.page-header .bottom-page-header .user-items .user-item.cart-list>ul li.cart-footer .btn-cart:hover {
+    -webkit-box-shadow: 0 0.5rem 1.125rem -0.5rem #c51162;
+    box-shadow: 0 0.5rem 1.125rem -0.5rem #c51162;
+}
+
+
+header.page-header .bottom-page-header .user-items .user-item.account ul li a:hover {
+    color: #c51162;
+}
+
+header.page-header .nav-wrapper>ul>li>a:hover {
+    color: #c51162;
+}
+
+header.page-header .nav-wrapper>ul>li.category-list>ul>li>ul>li a:hover {
+    color: #c51162;
+    padding-right: 4px;
+}
+
+header.page-header .nav-wrapper>ul>li.mega-menu>ul li a:hover {
+    color: #c51162 !important;
+}
+
+header.page-header .nav-wrapper>ul>li.mega-menu>ul li a i {
+    color: #c51162;
+    margin-left: 5px;
+}
+
+header.page-header .nav-wrapper>ul>li.dropdown--list ul li a:hover {
+    color: #c51162;
+}
+
+.header-responsive .header-bottom .search-box .search-result .search-result-list li a:hover {
+    color: #c51162;
+}
+
+.header-responsive .header-bottom .search-box .search-result .search-result-most-view li a:hover {
+    background-color: #c51162;
+    color: #fff;
+}
+
+.header-responsive .header-tools a .bag-items-number {
+    background-color: #c51162;
+}
+
+.hero-page.hero-page--search-box form button {
+    background-color: #c51162;
+}
+
+.offer-slider-wrapper .offer-slider .swiper-slide .product-title a:hover {
+    color: #c51162;
+}
+
+.product-detail .product-colors .list-radio-color input[type="radio"]:checked+label {
+    border-color: #c51162;
+}
+
+.product-detail .add-to-cart {
+    background-color: #c51162;
+}
+
+.pagination a.current {
+    background-color: #c51162;
+}
+
+.widget.widget-newsletter .newsletterform button {
+    background-color: #c51162;
+}
+
+.sidebar-widget .widget.widget-category ul li a:hover {
+    color: #c51162;
+}
