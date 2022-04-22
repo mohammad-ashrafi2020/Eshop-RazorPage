@@ -4,6 +4,58 @@ public class ApiResult
 {
     public bool IsSuccess { get; set; }
     public MetaData MetaData { get; set; }
+
+    public bool IsReload { get; set; } = false;
+    public static ApiResult Error(string message, bool isReload = false)
+    {
+        return new ApiResult()
+        {
+            IsSuccess = false,
+            IsReload = isReload,
+            MetaData = new MetaData()
+            {
+                AppStatusCode = AppStatusCode.ServerError,
+                Message = message
+            }
+        };
+    }
+    public static ApiResult Error()
+    {
+        return new ApiResult()
+        {
+            IsSuccess = false,
+            MetaData = new MetaData()
+            {
+                AppStatusCode = AppStatusCode.ServerError,
+                Message = "عملیات ناموفق"
+            }
+        };
+    }
+    public static ApiResult Success(string message, bool isReload = false)
+    {
+        return new ApiResult()
+        {
+            IsSuccess = false,
+            IsReload = isReload,
+            MetaData = new MetaData()
+            {
+                AppStatusCode = AppStatusCode.ServerError,
+                Message = message
+            }
+        };
+    }
+    public static ApiResult Success()
+    {
+        return new ApiResult()
+        {
+            IsSuccess = false,
+            MetaData = new MetaData()
+            {
+                AppStatusCode = AppStatusCode.ServerError,
+                Message = "عملیات با موفقیت انجام شد"
+            }
+        };
+    }
 }
 public class ApiResult<TData>
 {
