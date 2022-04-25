@@ -16,6 +16,7 @@
     <Folder Include="Models\Users\Commands\" />
     <Folder Include="Services\Auth\" />
     <Folder Include="Services\Banners\" />
+    <Folder Include="ViewModels\Users\" />
   </ItemGroup>
 
   <ItemGroup>

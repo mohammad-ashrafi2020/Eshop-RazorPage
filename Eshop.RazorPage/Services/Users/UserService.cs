@@ -1,6 +1,5 @@
 ﻿using Eshop.RazorPage.Infrastructure;
 using Eshop.RazorPage.Models;
-using Eshop.RazorPage.Models.UserAddress;
 using Eshop.RazorPage.Models.Users;
 using Eshop.RazorPage.Models.Users.Commands;
 
@@ -9,7 +8,7 @@ namespace Eshop.RazorPage.Services.Users;
 public class UserService : IUserService
 {
     private readonly HttpClient _client;
-    private const string ModuleName = "user";
+    private const string ModuleName = "users";
     public UserService(HttpClient client)
     {
         _client = client;
@@ -23,6 +22,12 @@ public class UserService : IUserService
     public async Task<ApiResult> EditUser(EditUserCommand command)
     {
         var result = await _client.PutAsJsonAsync(ModuleName, command);
+        return await result.Content.ReadFromJsonAsync<ApiResult>();
+    }
+
+    public async Task<ApiResult> ChangePassword(ChangePasswordCommand command)
+    {
+        var result = await _client.PutAsJsonAsync($"{ModuleName}/ChangePassword", command);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

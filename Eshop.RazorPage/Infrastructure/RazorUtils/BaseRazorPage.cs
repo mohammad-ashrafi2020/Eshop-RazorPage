@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 
 namespace Eshop.RazorPage.Infrastructure.RazorUtils;
 
+
+[ValidateAntiForgeryToken]
 public class BaseRazorPage : PageModel
 {
     public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
