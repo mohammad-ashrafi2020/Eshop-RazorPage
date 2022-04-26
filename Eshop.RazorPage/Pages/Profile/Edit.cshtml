@@ -1,4 +1,53 @@
 ﻿@page
 @model Eshop.RazorPage.Pages.Profile.EditModel
 @{
+    ViewData["title"] = "ویرایش اطلاعات";
+}
+<div class="row mb-5">
+    <partial name="Shared/Profile/_ProfileSideBar" />
+    <div class="col-lg-9 col-md-8">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="section-title mb-2">
+                    @ViewData["title"]
+                </div>
+                <section class="shadow-around p-3">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                @Html.EditorFor(f=>f.Name)
+                            </div>
+                            <div class="col-lg-6 mb-5">
+                                @Html.EditorFor(f=>f.Family)
+                            </div>
+                            <div class="col-lg-6 mb-5">
+                                @Html.EditorFor(f=>f.PhoneNumber)
+                            </div>
+                            <div class="col-lg-6 mb-5">
+                                @Html.EditorFor(f=>f.Email)
+                            </div>
+                            <div class="col-lg-6 mb-5">
+                                @Html.EditorFor(f=>f.Gender)
+                            </div>
+                            <div class="col-lg-6 mb-5">
+                                @Html.EditorFor(f=>f.Avatar)
+                            </div>
+                            <div class="col-12">
+                                <div class="form-element-row text-left">
+                                    <button type="submit" class="btn-element btn-success-element">
+                                        <i class="fad fa-user-edit"></i>
+                                        ذخیره تغییرات
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="/global/clientValidation.js"></script>
 }

@@ -8,6 +8,7 @@ public interface IUserService
 {
     Task<ApiResult> CreateUser(CreateUserCommand command);
     Task<ApiResult> EditUser(EditUserCommand command);
+    Task<ApiResult> EditUserCurrent(EditUserCommand command);
     Task<ApiResult> ChangePassword(ChangePasswordCommand command);
 
     Task<UserDto?> GetUserById(long userId);
