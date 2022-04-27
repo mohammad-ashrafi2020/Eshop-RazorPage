@@ -62,6 +62,21 @@ public class ApiResult<TData>
     public bool IsSuccess { get; set; }
     public TData Data { get; set; }
     public MetaData MetaData { get; set; }
+
+
+    public static ApiResult<TData> Success(TData data)
+    {
+        return new ApiResult<TData>()
+        {
+            IsSuccess = false,
+            Data = data,
+            MetaData = new MetaData()
+            {
+                AppStatusCode = AppStatusCode.ServerError,
+                Message = "عملیات با موفقیت انجام شد"
+            }
+        };
+    }
 }
 public class MetaData
 {

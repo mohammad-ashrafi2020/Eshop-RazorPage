@@ -1,4 +1,5 @@
-﻿using Eshop.RazorPage.Services.Auth;
+﻿using Eshop.RazorPage.Infrastructure.RazorUtils;
+using Eshop.RazorPage.Services.Auth;
 using Eshop.RazorPage.Services.Banners;
 using Eshop.RazorPage.Services.Categories;
 using Eshop.RazorPage.Services.Comments;
@@ -21,6 +22,12 @@ public static class RegisterDependencyServices
         services.AddHttpContextAccessor();
 
         services.AddScoped<HttpClientAuthorizationDelegatingHandler>();
+        services.AddTransient<IRenderViewToString, RenderViewToString>();
+
+
+
+
+
 
         services.AddHttpClient<IAuthService, AuthService>(httpClient =>
         {

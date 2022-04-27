@@ -7,7 +7,7 @@ namespace Eshop.RazorPage.Services.UserAddress;
 public class UserAddressService : IUserAddressService
 {
     private readonly HttpClient _client;
-    private const string ModuleName = "userAddresse";
+    private const string ModuleName = "UserAddress";
     public UserAddressService(HttpClient client)
     {
         _client = client;
