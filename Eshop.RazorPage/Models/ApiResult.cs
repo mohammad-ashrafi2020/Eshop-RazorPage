@@ -72,7 +72,7 @@ public class ApiResult<TData>
             Data = data,
             MetaData = new MetaData()
             {
-                AppStatusCode = AppStatusCode.ServerError,
+                AppStatusCode = AppStatusCode.Success,
                 Message = "عملیات با موفقیت انجام شد"
             }
         };

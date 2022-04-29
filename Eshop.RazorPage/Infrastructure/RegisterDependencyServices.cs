@@ -24,6 +24,7 @@ public static class RegisterDependencyServices
         services.AddScoped<HttpClientAuthorizationDelegatingHandler>();
         services.AddTransient<IRenderViewToString, RenderViewToString>();
 
+        services.AddAutoMapper(typeof(RegisterDependencyServices).Assembly);
 
 
 

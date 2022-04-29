@@ -99,3 +99,98 @@ $(document).ready(function () {
         deleteCookie("SystemAlert");
     }
 });
+
+function OpenModal(url, name, title) {
+    var modalSize = 'modal-lg';
+    $(`#${name} .modal-body`).html('');
+
+    $.ajax({
+        url: url,
+        type: "get",
+        beforeSend: function () {
+            $(".loading").show();
+        },
+        complete: function () {
+            $(".loading").hide();
+        },
+    }).done(function (result) {
+        result = JSON.parse(result);
+
+        if (result.Status != 1) {
+            ErrorAlert("مشکلی رخ داده", result.Message);
+            return;
+        }
+
+        if (result.Data) {
+
+            $('#' + name + ' .modal-body').html(result.Data);
+            $('#' + name + ' .modal-title ').html(title);
+
+            $('#' + name).modal({
+                backdrop: 'static',
+                keyboard: true
+            },
+                'show');
+
+            $('#' + name + ' .modal-dialog').removeClass('modal-lg modal-xl modal-sm modal-full');
+            $('#' + name + ' .modal-dialog').addClass(modalSize);
+
+            const form = $("#" + name + ' form');
+            if (form) {
+                $.validator.unobtrusive.parse(form);
+            }
+        }
+    });
+
+}
+
+function CallBackHandler(result) {
+    if (result.Status == 1) {
+        Success(result.Title, result.Message, result.IsReloadPage);
+    } else {
+        ErrorAlert(result.Title, result.Message, result.IsReloadPage);
+    }
+
+}
+$(document).on("submit",
+    'form[data-ajax="true"]',
+    function (e) {
+        e.preventDefault();
+        var form = $(this);
+        const method = form.attr("method").toLocaleLowerCase();
+        const url = form.attr("action");
+        if (method === "get") {
+            const data = form.serializeArray();
+            $.get(url,
+                data,
+                function (data) {
+                    CallBackHandler(data);
+                });
+        } else {
+            var formData = new FormData(this);
+            $.ajax({
+                url: url,
+                type: "post",
+                data: formData,
+                enctype: "multipart/form-data",
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    $(".loading").show();
+                },
+                complete: function () {
+                    $(".loading").hide();
+                },
+                success: function (data) {
+                    CallBackHandler(data);
+                },
+                error: function (data) {
+                    ErrorAlert();
+                }
+            });
+        }
+        return false;
+    });
+
+

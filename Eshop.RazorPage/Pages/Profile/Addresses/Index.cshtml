@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model Eshop.RazorPage.Pages.Profile.Addresses.IndexModel
 @{
     ViewData["title"] = "نشانی‌ها";
@@ -37,8 +37,7 @@
                     }
                     <div class="col-xl-3 col-lg-4 col-sm-6 mb-3">
                         <div class="custom-control custom-radio">
-                            <button class="add-address" data-toggle="modal"
-                                    data-target="#addAddressModal">
+                            <button class="add-address" onclick="OpenModal('@Url.Page("Index","ShowAddPage")','defaultModal','افزودن آدرس')">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
