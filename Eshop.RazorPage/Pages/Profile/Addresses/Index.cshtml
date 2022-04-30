@@ -27,10 +27,18 @@
                                         @item.Name @item.Family
                                     </span>
                                     <a href="#" class="link--with-border-bottom edit-address-btn"
-                                   data-toggle="modal" data-target="#editAddressModal">
+                                   onclick="OpenModal('@Url.Page("Index","ShowEditPage",new {addressId=item.Id})','defaultModal','افزودن آدرس')">
                                         ویرایش
                                         <i class="fa fa-edit"></i>
                                     </a>
+                                    <form method="post" class="delete-address">
+                                        <input type="hidden" name="addressId" value="@item.Id" />
+                                        <button href="#" class="link--with-border-bottom  "
+                                            onclick="return confirm('آیا از حذف اطمینان دازید ؟')">
+                                            حذف
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </label>
                             </div>
                         </div>

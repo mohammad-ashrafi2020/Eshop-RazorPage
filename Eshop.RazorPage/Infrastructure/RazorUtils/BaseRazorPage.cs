@@ -27,10 +27,20 @@ public class BaseRazorPage : PageModel
 
     protected IActionResult RedirectAndShowAlert(ApiResult result, IActionResult redirectPath)
     {
+
         var model = JsonConvert.SerializeObject(result);
         HttpContext.Response.Cookies.Append("SystemAlert", model);
         if (result.IsSuccess == false)
             return Page();
+        return redirectPath;
+    }
+    protected IActionResult RedirectAndShowAlert(ApiResult result, IActionResult redirectPath, IActionResult errorRedirectTo)
+    {
+
+        var model = JsonConvert.SerializeObject(result);
+        HttpContext.Response.Cookies.Append("SystemAlert", model);
+        if (result.IsSuccess == false)
+            return errorRedirectTo;
         return redirectPath;
     }
     //protected IActionResult RedirectAndShowAlert(ApiResult<long> result, IActionResult redirectPath)
@@ -205,38 +215,38 @@ public class BaseRazorPage : PageModel
             switch (res.MetaData.AppStatusCode)
             {
                 case AppStatusCode.Success:
-                {
-                    model.IsReloadPage = isSuccessReloadPage;
-                    var jsonResult = JsonConvert.SerializeObject(model);
-                    return Content(jsonResult);
-                }
+                    {
+                        model.IsReloadPage = isSuccessReloadPage;
+                        var jsonResult = JsonConvert.SerializeObject(model);
+                        return Content(jsonResult);
+                    }
                 case AppStatusCode.ServerError:
-                {
-                    model.IsReloadPage = isErrorReloadPage;
+                    {
+                        model.IsReloadPage = isErrorReloadPage;
 
-                    var jsonResult = JsonConvert.SerializeObject(model);
-                    return Content(jsonResult);
-                }
+                        var jsonResult = JsonConvert.SerializeObject(model);
+                        return Content(jsonResult);
+                    }
                 case AppStatusCode.NotFound:
-                {
-                    model.IsReloadPage = isErrorReloadPage;
-                    model.Title ??= "نتیجه ای یافت نشد";
-                    var jsonResult = JsonConvert.SerializeObject(model);
-                    return Content(jsonResult);
-                }
+                    {
+                        model.IsReloadPage = isErrorReloadPage;
+                        model.Title ??= "نتیجه ای یافت نشد";
+                        var jsonResult = JsonConvert.SerializeObject(model);
+                        return Content(jsonResult);
+                    }
                 case AppStatusCode.BadRequest:
-                {
-                    model.IsReloadPage = isErrorReloadPage;
-                    model.Title ??= "اطلاعات نامعتبر است";
-                    var jsonResult = JsonConvert.SerializeObject(model);
-                    return Content(jsonResult);
-                }
+                    {
+                        model.IsReloadPage = isErrorReloadPage;
+                        model.Title ??= "اطلاعات نامعتبر است";
+                        var jsonResult = JsonConvert.SerializeObject(model);
+                        return Content(jsonResult);
+                    }
                 default:
-                {
-                    model.IsReloadPage = isSuccessReloadPage;
-                    var jsonResult = JsonConvert.SerializeObject(model);
-                    return Content(jsonResult);
-                }
+                    {
+                        model.IsReloadPage = isSuccessReloadPage;
+                        var jsonResult = JsonConvert.SerializeObject(model);
+                        return Content(jsonResult);
+                    }
             }
         }
         catch (Exception ex)

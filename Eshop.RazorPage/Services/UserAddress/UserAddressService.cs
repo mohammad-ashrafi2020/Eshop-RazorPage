@@ -32,7 +32,7 @@ public class UserAddressService : IUserAddressService
 
     public async Task<AddressDto?> GetAddressById(long id)
     {
-        var result = await _client.GetFromJsonAsync<ApiResult<AddressDto?>>(ModuleName);
+        var result = await _client.GetFromJsonAsync<ApiResult<AddressDto?>>($"{ModuleName}/{id}");
         return result.Data;
     }
 

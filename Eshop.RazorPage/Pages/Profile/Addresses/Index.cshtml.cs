@@ -26,6 +26,11 @@ namespace Eshop.RazorPage.Pages.Profile.Addresses
             Addresses = await _userAddress.GetUserAddresses();
         }
 
+        public async Task<IActionResult> OnPostAsync(long addressId)
+        {
+            var result = await _userAddress.DeleteAddress(addressId);
+            return RedirectAndShowAlert(result, RedirectToPage("Index"), RedirectToPage("Index"));
+        }
         public async Task<IActionResult> OnPostAddAddress(CreateUserAddressViewModel viewModel)
         {
             return await AjaxTryCatch(async () =>
@@ -36,11 +41,33 @@ namespace Eshop.RazorPage.Pages.Profile.Addresses
                 return result;
             }, true);
         }
+        public async Task<IActionResult> OnPostEditAddress(EditUserAddressViewModel viewModel)
+        {
+            return await AjaxTryCatch(async () =>
+            {
+                var model = _mapper.Map<EditUserAddressCommand>(viewModel);
+                var result = await _userAddress.EditAddress(model);
+
+                return result;
+            }, true);
+        }
         public async Task<IActionResult> OnGetShowAddPage()
         {
             return await AjaxTryCatch(async () =>
             {
                 var view = await _renderViewToString.RenderToStringAsync("_Add", new CreateUserAddressViewModel(),
+                    PageContext);
+
+                return ApiResult<string>.Success(view);
+            });
+        }
+        public async Task<IActionResult> OnGetShowEditPage(long addressId)
+        {
+            return await AjaxTryCatch(async () =>
+            {
+                var address = await _userAddress.GetAddressById(addressId);
+                var model = _mapper.Map<EditUserAddressViewModel>(address);
+                var view = await _renderViewToString.RenderToStringAsync("_Edit", model,
                     PageContext);
 
                 return ApiResult<string>.Success(view);
