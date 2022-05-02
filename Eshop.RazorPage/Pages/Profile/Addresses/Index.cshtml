@@ -15,19 +15,29 @@
                 <div class="row mx-0">
                     @foreach (var item in Model.Addresses)
                     {
+                        var id = $"customRadio{item.Id}";
+
                         <div class="col-xl-3 col-lg-4 col-sm-6 mb-3">
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="customRadio1" checked="@(item.ActiveAddress?"checked":null)" name="customRadio"
+                                <input type="radio" id="@id" checked="@(item.ActiveAddress?"checked":null)" name="customRadio"
                                    class="custom-control-input">
-                                <label class="custom-control-label address-select" for="customRadio1">
-                                    <span class="head-address-select">به این آدرس ارسال شود</span>
+                                <label class="custom-control-label address-select" for="">
+                                    @if (item.ActiveAddress)
+                                    {
+                                        <span class="head-address-select">به این آدرس ارسال شود</span>
+                                    }
+                                    else
+                                    {
+                                        <span onclick="activeAddress('@item.Id')" class="head-address-select">به این آدرس ارسال شود</span>
+
+                                    }
                                     <span>@item.PostalAddress</span>
                                     <span>
                                         <i class="fa fa-user"></i>
                                         @item.Name @item.Family
                                     </span>
                                     <a href="#" class="link--with-border-bottom edit-address-btn"
-                                   onclick="OpenModal('@Url.Page("Index","ShowEditPage",new {addressId=item.Id})','defaultModal','افزودن آدرس')">
+                                   onclick="OpenModal('@Url.Page("Index", "ShowEditPage", new {addressId = item.Id})', 'defaultModal', 'افزودن آدرس')">
                                         ویرایش
                                         <i class="fa fa-edit"></i>
                                     </a>

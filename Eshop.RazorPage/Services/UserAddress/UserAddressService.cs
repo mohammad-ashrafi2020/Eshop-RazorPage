@@ -30,6 +30,12 @@ public class UserAddressService : IUserAddressService
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
+    public async Task<ApiResult> SetActiveAddress(long addressId)
+    {
+        var result = await _client.PutAsync($"{ModuleName}/SetActiveAddress/{addressId}", null);
+        return await result.Content.ReadFromJsonAsync<ApiResult>();
+    }
+
     public async Task<AddressDto?> GetAddressById(long id)
     {
         var result = await _client.GetFromJsonAsync<ApiResult<AddressDto?>>($"{ModuleName}/{id}");
