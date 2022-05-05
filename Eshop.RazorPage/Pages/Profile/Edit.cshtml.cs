@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Eshop.RazorPage.Pages.Profile;
 
 [BindProperties]
-[Authorize]
 public class EditModel : BaseRazorPage
 {
     private readonly IUserService _userService;

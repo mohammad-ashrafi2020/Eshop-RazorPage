@@ -14,17 +14,17 @@
         @ViewData["title"]
     </div>
     <form method="post">
-    
-   
-            @Html.EditorFor(m=>m.PhoneNumber)
-            @Html.EditorFor(m=>m.Password)
-            @*<label for="phone-number" class="label-element" asp-for="Password"></label>
-                <div class="form-element-with-icon">
-                <input type="password" class="input-element" asp-for="Password" id="password">
-                <i class="fad fa-key-skeleton"></i>
-                </div>
-                <span asp-validation-for="Password"></span>*@
-       
+        @Html.HiddenFor(f=>f.RedirectTo)
+
+        @Html.EditorFor(m=>m.PhoneNumber)
+        @Html.EditorFor(m=>m.Password)
+        @*<label for="phone-number" class="label-element" asp-for="Password"></label>
+            <div class="form-element-with-icon">
+            <input type="password" class="input-element" asp-for="Password" id="password">
+            <i class="fad fa-key-skeleton"></i>
+            </div>
+            <span asp-validation-for="Password"></span>*@
+
         <div class="form-element-row text-left">
             <button class="btn-element btn-info-element">
                 <i class="fad fa-sign-in-alt"></i>

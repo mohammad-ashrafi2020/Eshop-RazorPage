@@ -1,22 +1,23 @@
-﻿<div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar">
+﻿@using Eshop.RazorPage.Services.Users
+@using Eshop.RazorPage.Infrastructure
+@inject IUserService _user
+@{
+    var currentUser = await _user.GetCurrentUser();
+}
+<div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar">
     <div class="sidebar-widget">
-        <div class="banner mb-3">
-            <a href="#">
-                <img src="/assets/images/banner/banner-profile-sidebar.jpg"
-                     class="box-shaow-unset has-border" alt="...">
-            </a>
-        </div>
+      
         <div class="profile-sidebar shadow-around">
             <div class="d-flex align-items-center">
                 <div class="profile-avatar">
-                    <img src="/assets/images/avatar/avatar.png" alt="avatar">
+                    <img src="@SiteSettings.ServerPath/images/users/avatar/@currentUser?.AvatarName" alt="avatar">
                 </div>
                 <div class="profile-info">
                     <div class="d-block">
-                        <h6><strong>جلال بهرامی راد</strong></h6>
+                        <h6><strong>@currentUser?.Name @currentUser?.Family</strong></h6>
                     </div>
                     <div class="d-block">
-                        <strong class="text-muted">09104466813</strong>
+                        <strong class="text-muted">@currentUser?.PhoneNumber</strong>
                     </div>
                 </div>
             </div>
@@ -24,16 +25,8 @@
                 <ul>
                     <li>
                         <a href="#">
-                            <span>کیف پول</span>
-                            <span>
-                                2,500,000 <span class="text-info font-weight-bold">تومان</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span>همتا کلاب</span>
-                            <span>0 <span class="text-info font-weight-bold">امتیاز</span></span>
+                            <span> </span>
+                            <span>  <span class="text-info font-weight-bold"></span></span>
                         </a>
                     </li>
                 </ul>

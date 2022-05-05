@@ -27,12 +27,13 @@ namespace Eshop.RazorPage.Pages.Auth
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public IActionResult OnGet()
+        public string RedirectTo { get; set; }
+        public IActionResult OnGet(string redirectTo)
         {
             if (User.Identity.IsAuthenticated)
                 return Redirect("/");
 
-
+            RedirectTo = redirectTo;
             return Page();
         }
 
@@ -51,8 +52,13 @@ namespace Eshop.RazorPage.Pages.Auth
 
             var token = result.Data.Token;
             var refreshToken = result.Data.RefreshToken;
-            HttpContext.Response.Cookies.Append("token",token);
+            HttpContext.Response.Cookies.Append("token", token);
             HttpContext.Response.Cookies.Append("refresh-token", refreshToken);
+
+            if (string.IsNullOrWhiteSpace(RedirectTo) == false)
+            {
+                return LocalRedirect(RedirectTo);
+            }
             return Redirect("/");
         }
     }

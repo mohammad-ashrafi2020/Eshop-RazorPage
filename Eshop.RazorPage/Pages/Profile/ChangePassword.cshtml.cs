@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Eshop.RazorPage.Pages.Profile
 {
     [BindProperties]
-    [Authorize]
     public class ChangePasswordModel : BaseRazorPage
     {
         private readonly IUserService _userService;

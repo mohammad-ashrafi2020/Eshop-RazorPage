@@ -39,7 +39,7 @@ public class UserService : IUserService
         formData.Add(new StringContent(command.PhoneNumber), "PhoneNumber");
 
         if (command.Avatar != null)
-            formData.Add(new StreamContent(command.Avatar.OpenReadStream()), "Avatar");
+            formData.Add(new StreamContent(command.Avatar.OpenReadStream()), "Avatar", command.Avatar.FileName);
 
         formData.Add(new StringContent(command.Gender.ToString()), "Gender");
         formData.Add(new StringContent(command.Name), "Name");
