@@ -1,0 +1,12 @@
+﻿@model Microsoft.AspNetCore.Http.IFormFile
+@{
+    var id = Guid.NewGuid();
+}
+<fieldset class="form-group">
+    <label asp-for="@Model"></label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="@id" asp-for="@Model">
+        <label class="custom-file-label" for="@id">انتخاب فایل</label>
+    </div>
+    <span asp-validation-for="@Model" class="text-danger"></span>
+</fieldset>

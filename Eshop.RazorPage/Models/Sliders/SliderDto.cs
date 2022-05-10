@@ -1,6 +1,6 @@
 ﻿namespace Eshop.RazorPage.Models.Sliders;
 
-public class SliderDto
+public class SliderDto : BaseDto
 {
     public string Title { get; set; }
     public string Link { get; set; }
@@ -9,9 +9,9 @@ public class SliderDto
 
 public class CreateSliderCommand
 {
-    public string Link { get;  set; }
-    public IFormFile ImageFile { get;  set; }
-    public string Title { get;  set; }
+    public string Link { get; set; }
+    public IFormFile ImageFile { get; set; }
+    public string Title { get; set; }
 }
 public class EditSliderCommand
 {

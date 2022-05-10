@@ -1,0 +1,22 @@
+﻿@page
+@model Eshop.RazorPage.Pages.Admin.Sliders.AddModel
+@{
+    ViewData["title"] = "افزودن اسلایدر";
+}
+
+<form method="post" class="card" enctype="multipart/form-data">
+    <div class="row  card-body">
+        <div class="col-md-6">
+            @Html.EditorFor(m=>m.Title)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(m=>m.Link)
+        </div>
+        <div class="col-md-12">
+            @Html.EditorFor(m=>m.ImageFile)
+        </div>
+    </div>
+    <div class="card-footer text-left">
+        <button class="btn btn-success" type="submit">ثبت اطلاعات</button>
+    </div>
+</form>

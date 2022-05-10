@@ -1,4 +1,5 @@
-﻿using Eshop.RazorPage.Models;
+﻿using Common.Application.Validation.CustomValidation.IFormFile;
+using Eshop.RazorPage.Models;
 using Eshop.RazorPage.Models.Sliders;
 
 namespace Eshop.RazorPage.Services.Sliders;
@@ -13,13 +14,25 @@ public class SliderService : ISliderService
     }
     public async Task<ApiResult> CreateSlider(CreateSliderCommand command)
     {
-        var result = await _client.PostAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Link), "Link");
+
+        var result = await _client.PostAsync($"{ModuleName}", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
     public async Task<ApiResult> EditSlider(EditSliderCommand command)
     {
-        var result = await _client.PutAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Title), "Title");
+
+        if (command.ImageFile.IsImage())
+            formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Link), "Link");
+
+        var result = await _client.PutAsync($"{ModuleName}", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

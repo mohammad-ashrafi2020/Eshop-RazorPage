@@ -1,0 +1,43 @@
+﻿@page
+@using Eshop.RazorPage.Infrastructure
+@model Eshop.RazorPage.Pages.Admin.Sliders.IndexModel
+@{
+}
+<h3>مدیریت اسلایدر ها</h3>
+<a asp-page="Add" class="btn btn-success mb-2">افزودن اسلایدر</a>
+<div class="table-responsive card card-body p-0">
+    <table class="table table-bordered mb-0">
+        <thead>
+            <tr>
+                <th>عکس</th>
+                <th>عنوان</th>
+                <th>لینک</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Sliders)
+            {
+                <tr>
+                    <td>
+                        <img src="@Directories.GetSliderImage(item.ImageName)" style="max-width: 250px" />
+                    </td>
+                    <td>@item.Title</td>
+                    <td>@item.Link</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@item.Id">ویرایش</a>
+                        <a asp-page="Edit" asp-route-id="@item.Id">حذف</a>
+                    </td>
+                </tr>
+
+            }
+            @if (Model.Sliders.Any() == false)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

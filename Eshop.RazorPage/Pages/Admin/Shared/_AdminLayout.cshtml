@@ -26,7 +26,9 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-            @RenderBody()
+            <div class="content-body">
+                @RenderBody()
+            </div>
         </div>
     </div>
     <div class="sidenav-overlay"></div>
@@ -45,7 +47,8 @@
     <script src="/admin/js/scripts/components.js"></script>
     <script src="/admin/js/scripts/footer.js"></script>
     <script src="/admin/js/scripts/customizer.js"></script>
-    <script src="/admin/js/scripts/pages/dashboard-ecommerce.js"></script>
+    <script src="/assets/js/plugins/sweetalert2.all.min.js"></script>
+    <script src="/global.js"></script>
     @await RenderSectionAsync("Scripts",false)
 </body>
 </html>
