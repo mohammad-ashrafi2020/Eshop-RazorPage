@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @using Eshop.RazorPage.Infrastructure
 @model Eshop.RazorPage.Pages.Admin.Sliders.IndexModel
 @{
@@ -18,24 +18,27 @@
         <tbody>
             @foreach (var item in Model.Sliders)
             {
-                <tr>
-                    <td>
-                        <img src="@Directories.GetSliderImage(item.ImageName)" style="max-width: 250px" />
-                    </td>
-                    <td>@item.Title</td>
-                    <td>@item.Link</td>
-                    <td>
-                        <a asp-page="Edit" asp-route-id="@item.Id">ویرایش</a>
-                        <a asp-page="Edit" asp-route-id="@item.Id">حذف</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <img src="@Directories.GetSliderImage(item.ImageName)" style="max-width: 250px" />
+                        </td>
+                        <td>@item.Title</td>
+                        <td>@item.Link</td>
+                        <td>
+                            <a asp-page="Edit" class="btn btn-primary btn-sm" asp-route-id="@item.Id">ویرایش</a>
+
+                            <delete-item url="@Url.Page("Index", "DeleteSlider", new {sliderId = item.Id})">
+                                حذف
+                            </delete-item>
+                        </td>
+                    </tr>
 
             }
             @if (Model.Sliders.Any() == false)
             {
-                <tr>
-                    <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد</td>
-                </tr>
+                    <tr>
+                        <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد</td>
+                    </tr>
             }
         </tbody>
     </table>

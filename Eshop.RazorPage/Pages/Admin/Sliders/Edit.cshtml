@@ -1,4 +1,28 @@
-﻿@page
+﻿@page "{id}"
+@using Eshop.RazorPage.Infrastructure
 @model Eshop.RazorPage.Pages.Admin.Sliders.EditModel
+
 @{
+    ViewData["title"] = "ویرایش اسلایدر";
 }
+
+<form method="post" class="card" enctype="multipart/form-data">
+    @Html.HiddenFor(f=>f.ImageName)
+    <div class="row  card-body">
+        <div class="col-md-6">
+            @Html.EditorFor(m => m.Title)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(m => m.Link)
+        </div>
+        <div class="col-md-12">
+            @Html.EditorFor(m => m.ImageFile)
+        </div>
+        <div class="col-12">
+            <img src="@Directories.GetSliderImage(Model.ImageName)" style="width: 100%; height: 300px"/>
+        </div>
+    </div>
+    <div class="card-footer text-left">
+        <button class="btn btn-success" type="submit">ثبت اطلاعات</button>
+    </div>
+</form>

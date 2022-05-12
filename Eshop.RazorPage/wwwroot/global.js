@@ -68,6 +68,41 @@ function Warning(Title, description, isReload = false) {
         }
     });
 }
+
+function DeleteItem(url, description) {
+    Swal.fire({
+        title: "آیا از حذف اطمینان دارید ؟",
+        text: description,
+        icon: "warning",
+        confirmButtonText: "بله ، مطمعا هستم",
+        cancelButtonText: "خیر",
+        showCancelButton: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var token = $("#ajax-token input[name='__RequestVerificationToken']").val();
+            $.ajax({
+                url: url,
+                method: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+                beforeSend: function (xhr) {
+                    $(".loading").show();
+                },
+                complete: function () {
+                    $(".loading").hide();
+                },
+            }).done(function (data) {
+                var res = JSON.parse(data);
+                if (res.Status === 1) {
+                    Success("", res.Message, true);
+                } else {
+                    ErrorAlert("", res.Message, res.isReloadPage);
+                }
+            });
+        }
+    });
+}
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

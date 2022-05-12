@@ -28,9 +28,10 @@ public class SliderService : ISliderService
         var formData = new MultipartFormDataContent();
         formData.Add(new StringContent(command.Title), "Title");
 
-        if (command.ImageFile.IsImage())
+        if (command.ImageFile != null && command.ImageFile.IsImage())
             formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
         formData.Add(new StringContent(command.Link), "Link");
+        formData.Add(new StringContent(command.Id.ToString()), "Id");
 
         var result = await _client.PutAsync($"{ModuleName}", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
@@ -44,7 +45,7 @@ public class SliderService : ISliderService
 
     public async Task<SliderDto?> GetSliderById(long sliderId)
     {
-        var result = await _client.GetFromJsonAsync<ApiResult<SliderDto?>>(ModuleName);
+        var result = await _client.GetFromJsonAsync<ApiResult<SliderDto?>>($"{ModuleName}/{sliderId}");
         return result.Data;
     }
 

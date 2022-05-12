@@ -49,6 +49,9 @@
     <script src="/admin/js/scripts/customizer.js"></script>
     <script src="/assets/js/plugins/sweetalert2.all.min.js"></script>
     <script src="/global.js"></script>
+    <div id="ajax-token">
+        @Html.AntiForgeryToken()
+    </div>
     @await RenderSectionAsync("Scripts",false)
 </body>
 </html>
