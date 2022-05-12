@@ -35,7 +35,7 @@ public class ApiResult
     {
         return new ApiResult()
         {
-            IsSuccess = false,
+            IsSuccess = true,
             IsReload = isReload,
             MetaData = new MetaData()
             {
@@ -48,7 +48,7 @@ public class ApiResult
     {
         return new ApiResult()
         {
-            IsSuccess = false,
+            IsSuccess = true,
             MetaData = new MetaData()
             {
                 AppStatusCode = AppStatusCode.ServerError,
@@ -68,7 +68,7 @@ public class ApiResult<TData>
     {
         return new ApiResult<TData>()
         {
-            IsSuccess = false,
+            IsSuccess = true,
             Data = data,
             MetaData = new MetaData()
             {
