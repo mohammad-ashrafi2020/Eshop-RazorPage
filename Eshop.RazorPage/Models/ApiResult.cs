@@ -76,6 +76,20 @@ public class ApiResult<TData>
                 Message = "عملیات با موفقیت انجام شد"
             }
         };
+    
+    }
+    public static ApiResult<TData> Error()
+    {
+        return new ApiResult<TData>()
+        {
+            IsSuccess = true,
+            Data = default(TData),
+            MetaData = new MetaData()
+            {
+                AppStatusCode = AppStatusCode.LogicError,
+                Message = "عملیات ناموفق"
+            }
+        };
     }
 }
 public class MetaData

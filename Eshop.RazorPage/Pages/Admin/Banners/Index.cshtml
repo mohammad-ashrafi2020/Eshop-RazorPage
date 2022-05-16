@@ -1,0 +1,47 @@
+﻿@page "{handler?}"
+@using Eshop.RazorPage.Infrastructure
+@model Eshop.RazorPage.Pages.Admin.Banners.IndexModel
+@{
+    ViewData["title"] = "مدیریت بنر ها";
+}
+<h3>@ViewData["title"]</h3>
+<open-modal 
+    modal-title="افزودن بنر"
+    url="@Url.Page("Index","renderAddPage")">افزودن بنر</open-modal>
+<div class="table-responsive card card-body p-0">
+    <table class="table table-bordered mb-0">
+        <thead>
+            <tr>
+                <th>عکس</th>
+                <th>موقعیت</th>
+                <th>url</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Banners)
+            {
+                <tr>
+                    <td>
+                        <img style="max-width: 200px" src="@Directories.GetBannerImage(item.ImageName)" />
+                    </td>
+                    <td>
+                        @item.Position.ToString().Replace("_"," ")
+                    </td>
+                    <td>@item.Link</td>
+                    <td>
+                        <delete-item url="@Url.Page("Index", "Delete", new {id = item.Id})">
+                            حذف
+                        </delete-item>
+                        <open-modal 
+                            modal-title="ویرایش"
+                            class="btn btn-primary btn-sm"
+                            url="@Url.Page("Index", "renderEditPage", new {id = item.Id})">
+                            ویرایش بنر
+                        </open-modal>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

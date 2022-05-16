@@ -81,5 +81,6 @@ namespace Eshop.RazorPage.Pages.Profile.Addresses
                 return ApiResult<string>.Success(view);
             });
         }
+
     }
 }

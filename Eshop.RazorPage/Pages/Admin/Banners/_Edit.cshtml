@@ -1,0 +1,19 @@
+﻿@model Eshop.RazorPage.Models.Banners.EditBannerCommand
+<form method="post" data-ajax="true" asp-page="Index" asp-page-handler="EditBanner" enctype="multipart/form-data">
+    <div class="row">
+        @Html.HiddenFor(f=>f.Id)
+
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Link)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Position)
+        </div>
+        <div class="col-md-12">
+            @Html.EditorFor(f => f.ImageFile)
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        ذخیره تغییرات
+    </button>
+</form>

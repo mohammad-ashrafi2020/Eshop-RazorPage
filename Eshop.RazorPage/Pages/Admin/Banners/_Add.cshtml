@@ -1,0 +1,17 @@
+﻿@model Eshop.RazorPage.Models.Banners.CreateBannerCommand
+<form method="post" data-ajax="true" asp-page="Index" asp-page-handler="CreateBanner" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            @Html.EditorFor(f=>f.Link)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f=>f.Position)
+        </div>
+        <div class="col-md-12">
+            @Html.EditorFor(f=>f.ImageFile)
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        ذخیره تغییرات
+    </button>
+</form>

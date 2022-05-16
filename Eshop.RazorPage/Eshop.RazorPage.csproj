@@ -14,7 +14,6 @@
     <Folder Include="Models\Roles\" />
     <Folder Include="Models\Products\Commands\" />
     <Folder Include="Models\Users\Commands\" />
-    <Folder Include="TagHelpers\" />
     <Folder Include="Services\Auth\" />
     <Folder Include="Services\Banners\" />
   </ItemGroup>
