@@ -1,0 +1,24 @@
+﻿@page "{panrentId?}"
+@model Eshop.RazorPage.Pages.Admin.Categories.AddModel
+@{
+    ViewData["title"] = "مدیریت گروه ها";
+}
+<h3>@ViewData["title"]</h3>
+
+<form class="card" method="post">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.EditorFor(f=>f.Title)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(f=>f.Slug)
+            </div>
+            @Html.EditorFor(f=>f.SeoData)
+        </div>
+    </div>
+    <div class="card-footer text-right">
+        <cancel></cancel>
+        <submit />
+    </div>
+</form>

@@ -1,4 +1,4 @@
-﻿namespace Eshop.RazorPage.Models.Categories;
+﻿namespace Eshop.RazorPage.Models;
 
 public class SeoData
 {
