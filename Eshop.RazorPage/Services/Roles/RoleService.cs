@@ -18,7 +18,7 @@ public class RoleService : IRoleService
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
-    public async Task<ApiResult> EditRole(CreateRoleCommand command)
+    public async Task<ApiResult> EditRole(EditRoleCommand command)
     {
         var result = await _client.PutAsJsonAsync(ModuleName, command);
         return await result.Content.ReadFromJsonAsync<ApiResult>();

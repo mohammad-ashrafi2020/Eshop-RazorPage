@@ -1,0 +1,40 @@
+﻿@page "{id}"
+@using Eshop.RazorPage.Infrastructure
+@model Eshop.RazorPage.Pages.Admin.Roles.EditModel
+@{
+    ViewData["Title"] = "ویرایش نقش ";
+    ViewData["selected"] = "roles";
+}
+<form class="card" method="post">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.EditorFor(f=>f.Title)
+            </div>
+            <div class="col-md-6">
+                <label>انتخاب دسترسی ها</label>
+                <div class="row">
+                    @foreach (var item in Enum.GetNames(typeof(Permission)))
+                    {
+                        var id = Guid.NewGuid();
+
+                        <div class="col-md-4">
+                            <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+                                <label class="mb-0 d-block">@item.Replace("_"," ")</label>
+                                <input type="checkbox" value="@item" checked="@(Model.Permissions.Any(f=>f.ToString()==item))" class="custom-control-input" name="permissions" id="@id">
+                                <label class="custom-control-label" for="@id">
+                                    <span class="switch-icon-left"><i class="bx bx-check"></i></span>
+                                    <span class="switch-icon-right"><i class="bx bx-check"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-left">
+        <cancel></cancel>
+        <submit />
+    </div>
+</form>

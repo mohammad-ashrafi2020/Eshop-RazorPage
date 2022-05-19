@@ -133,6 +133,9 @@ $(document).ready(function () {
         }
         deleteCookie("SystemAlert");
     }
+    if ($(".select2")) {
+        $(".select2").select2();
+    }
 });
 
 function OpenModal(url, name, title) {
