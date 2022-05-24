@@ -1,0 +1,66 @@
+﻿@page
+@using Eshop.RazorPage.Models.Users
+@using Eshop.RazorPage.Infrastructure.Utils
+@using Eshop.RazorPage.Infrastructure
+@model Eshop.RazorPage.Pages.Admin.Products.IndexModel
+@{
+    ViewData["title"] = "مدیریت محصولات";
+}
+<form class="card shadow-lg " method="get">
+    <div class="card-header text-left">
+        <a asp-page="Index" class="btn btn-danger btn-sm">حذف فیلتر</a>
+        <button type="submit" class="btn btn-primary btn-sm">فیلتر</button>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label>شناسه محصول</label>
+                <input type="number" asp-for="FilterParams.Id"  class="form-control"/>
+            </div>
+            <div class="col-md-4">
+                <label>عنوان محصول</label>
+                <input type="text" asp-for="FilterParams.Title"  class="form-control"/>
+            </div>
+            <div class="col-md-4">
+                <label>slug</label>
+                <input type="text" asp-for="FilterParams.Slug"  class="form-control"/>
+            </div>
+        </div>
+    </div>
+</form>
+<a asp-page="Add" class="btn btn-success">
+    <i class="fa fa-plus"></i>
+    افرودن محصول
+</a>
+<div class="card">
+    <div class="card-body table-responsive p-0">
+        <table class="table table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>عکس</th>
+                    <th>عنوان</th>
+                    <th>slug</th>
+                    <th>تاریخ ثبت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.FilterResult.Data)
+                {
+                    <tr>
+                        <td>
+                            <img src="@Directories.GetProductImage(item.ImageName)" width="250px" />
+                        </td>
+                        <td>@item.Title</td>
+                        <td>@item.Slug</td>
+                        <td>@item.CreationDate.ToPersianDateTime()</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" asp-page="Edit" asp-route-id="@item.Id">ویرایش</a>
+                            <a>گالری تصاویر</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

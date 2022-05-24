@@ -61,7 +61,7 @@ public class ProductService : IProductService
     public async Task<ProductFilterResult> GetProductByFilter(ProductFilterParams filterParams)
     {
         var url = $"{ModuleName}?pageId={filterParams.PageId}&take={filterParams.Take}" +
-            $"&slug={filterParams.Slug}&slug={filterParams.Title}";
+            $"&slug={filterParams.Slug}&title={filterParams.Title}";
         if (filterParams.Id != null)
             url += $"&Id={filterParams.Id}";
         var result = await _client.GetFromJsonAsync<ApiResult<ProductFilterResult>>(url);
