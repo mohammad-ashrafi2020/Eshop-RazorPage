@@ -123,6 +123,7 @@ function deleteCookie(cookieName) {
     document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970;path=/`;
 }
 $(document).ready(function () {
+    loadCkeditor4();
     var result = getCookie("SystemAlert");
     if (result) {
         result = JSON.parse(result);
@@ -173,6 +174,7 @@ function OpenModal(url, name, title) {
             $('#' + name + ' .modal-dialog').removeClass('modal-lg modal-xl modal-sm modal-full');
             $('#' + name + ' .modal-dialog').addClass(modalSize);
 
+            loadCkeditor4();
             const form = $("#" + name + ' form');
             if (form) {
                 $.validator.unobtrusive.parse(form);
@@ -232,3 +234,14 @@ $(document).on("submit",
     });
 
 
+function loadCkeditor4() {
+    if (!document.getElementById("ckeditor4"))
+        return;
+
+    $("body").prepend(`<script src="/admin/ckeditor4/ckeditor/ckeditor.js"></script>`);
+    setTimeout(() => {
+        CKEDITOR.replace('ckeditor4', {
+            customConfig: '/admin/ckeditor4/ckeditor/config.js'
+        });
+    }, 500);
+}

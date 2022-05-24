@@ -5,6 +5,8 @@ using Eshop.RazorPage.Models.Orders;
 using Eshop.RazorPage.Models.Products;
 using Eshop.RazorPage.Models.Products.Commands;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 namespace Eshop.RazorPage.Services.Products;
 
@@ -19,7 +21,26 @@ public class ProductService : IProductService
 
     public async Task<ApiResult> CreateProduct(CreateProductCommand command)
     {
-        var result = await _client.PostAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Slug), "Slug");
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Description), "Description");
+        formData.Add(new StringContent(command.CategoryId.ToString()), "CategoryId");
+        formData.Add(new StringContent(command.SubCategoryId.ToString()), "SubCategoryId");
+        formData.Add(new StringContent(command.SecondarySubCategoryId.ToString() ?? string.Empty), "SecondarySubCategoryId");
+        formData.Add(new StringContent(command.SeoData.MetaTitle), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.Canonical), "SeoData.Canonical");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+        formData.Add(new StringContent(command.SeoData.Schema), "SeoData.Schema");
+
+        var specifications = JsonConvert.SerializeObject(command.Specifications);
+        formData.Add(new StringContent(specifications, Encoding.UTF8, "application/json"), "Specifications");
+
+
+        var result = await _client.PostAsync(ModuleName, formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

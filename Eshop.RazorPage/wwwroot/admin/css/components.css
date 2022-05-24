@@ -4041,9 +4041,7 @@ body:after {
 	margin-top: -5px;
 	border-width: 0 0 2px 2px;
 	border-color: #B3C0CE;
-	-webkit-transform: rotate(-45deg);
-	-ms-transform: rotate(-45deg);
-	transform: rotate(-45deg);
+
 }
 
 .select2-container--classic.select2-container--open .select2-selection--single,

@@ -1,10 +1,10 @@
-﻿@page
-@using Eshop.RazorPage.Models.Users
+﻿@page "{handler?}"
 @using Eshop.RazorPage.Infrastructure.Utils
 @using Eshop.RazorPage.Infrastructure
 @model Eshop.RazorPage.Pages.Admin.Products.IndexModel
 @{
     ViewData["title"] = "مدیریت محصولات";
+    ViewData["selected"] = "products";
 }
 <form class="card shadow-lg " method="get">
     <div class="card-header text-left">
@@ -15,15 +15,15 @@
         <div class="row">
             <div class="col-md-4">
                 <label>شناسه محصول</label>
-                <input type="number" asp-for="FilterParams.Id"  class="form-control"/>
+                <input type="number" asp-for="FilterParams.Id" class="form-control" />
             </div>
             <div class="col-md-4">
                 <label>عنوان محصول</label>
-                <input type="text" asp-for="FilterParams.Title"  class="form-control"/>
+                <input type="text" asp-for="FilterParams.Title" class="form-control" />
             </div>
             <div class="col-md-4">
                 <label>slug</label>
-                <input type="text" asp-for="FilterParams.Slug"  class="form-control"/>
+                <input type="text" asp-for="FilterParams.Slug" class="form-control" />
             </div>
         </div>
     </div>
