@@ -28,7 +28,7 @@
         </div>
     </div>
 </form>
-<a asp-page="Add" class="btn btn-success">
+<a asp-page="Add" class="btn btn-success mb-2">
     <i class="fa fa-plus"></i>
     افرودن محصول
 </a>
@@ -55,8 +55,8 @@
                         <td>@item.Slug</td>
                         <td>@item.CreationDate.ToPersianDateTime()</td>
                         <td>
-                            <a class="btn btn-sm btn-primary" asp-page="Edit" asp-route-id="@item.Id">ویرایش</a>
-                            <a>گالری تصاویر</a>
+                            <a class="btn btn-sm btn-primary" asp-page="Edit" asp-route-productId="@item.Id">ویرایش</a>
+                            <a asp-page="Galleries/Index" asp-route-productId="@item.Id" class="btn btn-warning btn-sm">گالری تصاویر</a>
                         </td>
                     </tr>
                 }

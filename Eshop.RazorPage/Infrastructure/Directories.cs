@@ -20,7 +20,7 @@
         }
         public static string GetProductImageGallery(string imageName)
         {
-            return $"{SiteSettings.ServerPath}{ProductImages}/{imageName}";
+            return $"{SiteSettings.ServerPath}{ProductGalleryImage}/{imageName}";
         }
         public static string GetBannerImage(string imageName)
         {

@@ -46,13 +46,38 @@ public class ProductService : IProductService
 
     public async Task<ApiResult> EditProduct(EditProductCommand command)
     {
-        var result = await _client.PutAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Slug), "Slug");
+        formData.Add(new StringContent(command.ProductId.ToString()), "ProductId");
+        if (command.ImageFile != null)
+            formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Description), "Description");
+        formData.Add(new StringContent(command.CategoryId.ToString()), "CategoryId");
+        formData.Add(new StringContent(command.SubCategoryId.ToString()), "SubCategoryId");
+        formData.Add(new StringContent(command.SecondarySubCategoryId.ToString() ?? string.Empty), "SecondarySubCategoryId");
+        formData.Add(new StringContent(command.SeoData.MetaTitle), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.Canonical), "SeoData.Canonical");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+        formData.Add(new StringContent(command.SeoData.Schema), "SeoData.Schema");
+
+        var specifications = JsonConvert.SerializeObject(command.Specifications);
+        formData.Add(new StringContent(specifications, Encoding.UTF8, "application/json"), "Specifications");
+
+        var result = await _client.PutAsync(ModuleName, formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
     public async Task<ApiResult> AddImage(AddProductImageCommand command)
     {
-        var result = await _client.PostAsJsonAsync($"{ModuleName}/images", command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Sequence.ToString()), "Sequence");
+        formData.Add(new StringContent(command.ProductId.ToString()), "ProductId");
+
+        var result = await _client.PostAsync($"{ModuleName}/images", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
@@ -94,7 +119,7 @@ public class ProductService : IProductService
         var url = $"{ModuleName}?pageId={filterParams.PageId}&take={filterParams.Take}" +
                   $"&categorySlug={filterParams.CategorySlug}&onlyAvailableProducts={filterParams.OnlyAvailableProducts}" +
                   $"&search={filterParams.Search}&SearchOrderBy={filterParams.SearchOrderBy}&JustHasDiscount={filterParams.JustHasDiscount}";
-      
+
         var result = await _client.GetFromJsonAsync<ApiResult<ProductShopResult>>(url);
         return result?.Data;
     }

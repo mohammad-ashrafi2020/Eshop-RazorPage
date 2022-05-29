@@ -17,6 +17,8 @@ jQuery.validator.addMethod("fileSize",
 jQuery.validator.addMethod("fileImage",
     function (value, element, params) {
         var fileType = getExtension(value.toLowerCase());
+        if (!fileType)
+            return true;
         if (fileType === "png" || fileType === "jpg" || fileType === "jpeg" ||
             fileType === "bmp" || fileType === "svg" || fileType === "gif" ||
             fileType === "tiff" || fileType === "webp" || fileType === "ico" || fileType === "pjpeg")

@@ -104,12 +104,13 @@ public class BaseRazorPage : PageModel
 
     public async Task<ContentResult> AjaxTryCatch(Func<Task<ApiResult>> func,
            bool isSuccessReloadPage = true,
-           bool isErrorReloadPage = false)
+           bool isErrorReloadPage = false,
+           bool checkModelState = true)
     {
         try
         {
             var isPost = PageContext.HttpContext.Request.Method == "POST";
-            if (isPost && !ModelState.IsValid)
+            if (isPost && !ModelState.IsValid && checkModelState)
             {
                 var errors = JoinErrors();
                 var modelError = new AjaxResult()
