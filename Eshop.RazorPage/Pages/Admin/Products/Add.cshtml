@@ -5,7 +5,8 @@
 @inject ICategoryService _categoryService
 @{
     ViewData["title"] = "افزودن محصول";
-    ViewData["selected"] = "products";
+    ViewData["selected"] = "products_product";
+
     var categories = await _categoryService.GetCategories();
 }
 <form class="card" method="post" enctype="multipart/form-data">

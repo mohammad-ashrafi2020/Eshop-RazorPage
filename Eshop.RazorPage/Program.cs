@@ -32,6 +32,12 @@ builder.Services.AddAuthorization(option =>
     {
         builder.RequireAuthenticatedUser();
     });
+    option.AddPolicy("SellerPanel", builder =>
+    {
+        builder.RequireAuthenticatedUser();
+        builder.RequireAssertion(f => f.User.Claims
+            .Any(c => c.Type == ClaimTypes.Role && c.Value.Contains("Seller")));
+    });
 });
 
 builder.Services.AddRazorPages()
@@ -39,6 +45,7 @@ builder.Services.AddRazorPages()
     .AddRazorPagesOptions(options =>
     {
         options.Conventions.AuthorizeFolder("/Profile", "Account");
+        options.Conventions.AuthorizeFolder("/SellerPanel", "SellerPanel");
     });
 
 builder.Services.AddAuthentication(option =>
@@ -77,7 +84,7 @@ app.Use(async (context, next) =>
     var token = context.Request.Cookies["token"]?.ToString();
     if (string.IsNullOrWhiteSpace(token) == false)
     {
-        context.Request.Headers.Append("Authorization",$"Bearer {token}");
+        context.Request.Headers.Append("Authorization", $"Bearer {token}");
     }
     await next();
 });

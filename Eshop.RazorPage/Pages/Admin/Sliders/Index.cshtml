@@ -2,6 +2,8 @@
 @using Eshop.RazorPage.Infrastructure
 @model Eshop.RazorPage.Pages.Admin.Sliders.IndexModel
 @{
+    ViewData["selected"] = "sliders";
+    ViewData["title"] = "مدیریت اسلایدر ها";
 }
 <h3>مدیریت اسلایدر ها</h3>
 <a asp-page="Add" class="btn btn-success mb-2">افزودن اسلایدر</a>

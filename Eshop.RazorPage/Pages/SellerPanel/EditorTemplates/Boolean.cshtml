@@ -1,0 +1,12 @@
+﻿@model bool
+@{
+    var id = Guid.NewGuid();
+}
+<div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+    <label  asp-for="@Model" class="mb-0 d-block"></label>
+    <input type="checkbox" class="custom-control-input" asp-for="@Model" id="@id">
+    <label class="custom-control-label" for="@id">
+        <span class="switch-icon-left"><i class="bx bx-check"></i></span>
+        <span class="switch-icon-right"><i class="bx bx-check"></i></span>
+    </label>
+</div>

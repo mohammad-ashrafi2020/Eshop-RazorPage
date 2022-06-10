@@ -1,8 +1,11 @@
 ﻿@page
+@using Eshop.RazorPage.Infrastructure
+@using System.Security.Claims
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
+@User.FindFirst(ClaimTypes.Role)?.Value
 <div class="row d-none d-sm-block">
                     <div class="col-12 mb-3">
                         <div class="banner">

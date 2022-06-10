@@ -1,6 +1,8 @@
 ﻿@page
 @model Eshop.RazorPage.Pages.Admin.IndexModel
 @{
+    ViewData["selected"] = "index";
+    ViewData["title"] = "داشبورد مدیریت";
 }
 <section id="dashboard-ecommerce">
     <div class="row">
@@ -973,6 +975,6 @@
 </section>
 @section Scripts
 {
-    <script src="/admin/js/scripts/pages/dashboard-ecommerce.js"></script>
+<script src="/admin/js/scripts/pages/dashboard-ecommerce.js"></script>
 
 }

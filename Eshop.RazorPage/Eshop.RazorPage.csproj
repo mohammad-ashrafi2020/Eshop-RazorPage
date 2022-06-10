@@ -15,6 +15,7 @@
     <Folder Include="Models\Products\Commands\" />
     <Folder Include="Models\Users\Commands\" />
     <Folder Include="Pages\Admin\Seller\" />
+    <Folder Include="Pages\SellerPanel\Orders\" />
     <Folder Include="Services\Auth\" />
     <Folder Include="Services\Banners\" />
   </ItemGroup>
