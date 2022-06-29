@@ -28,7 +28,8 @@ public class ProductService : IProductService
         formData.Add(new StringContent(command.Description), "Description");
         formData.Add(new StringContent(command.CategoryId.ToString()), "CategoryId");
         formData.Add(new StringContent(command.SubCategoryId.ToString()), "SubCategoryId");
-        formData.Add(new StringContent(command.SecondarySubCategoryId.ToString() ?? string.Empty), "SecondarySubCategoryId");
+        if (command.SecondarySubCategoryId != null)
+            formData.Add(new StringContent(command.SecondarySubCategoryId.ToString() ?? string.Empty), "SecondarySubCategoryId");
         formData.Add(new StringContent(command.SeoData.MetaTitle), "SeoData.MetaTitle");
         formData.Add(new StringContent(command.SeoData.Canonical), "SeoData.Canonical");
         formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");

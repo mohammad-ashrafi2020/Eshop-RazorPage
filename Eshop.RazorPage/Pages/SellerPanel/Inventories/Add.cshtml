@@ -1,4 +1,38 @@
 ﻿@page
+@using Eshop.RazorPage.Services.Products
+@using Eshop.RazorPage.Models.Products
 @model Eshop.RazorPage.Pages.SellerPanel.Inventories.AddModel
+@inject IProductService _ProductService
 @{
+    var products = await _ProductService.GetProductByFilter(new ProductFilterParams()
+            {
+                PageId = 1,
+                Take = 1000
+            });
 }
+<form method="post" class="card">
+    <div class="row card-body">
+        <div class="col-md-6">
+            <label>انتخاب محصول</label>
+            <select asp-for="ProductId" class="form-control select2">
+                @foreach (var item in products.Data)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Price)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Count)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.PercentageDiscount)
+        </div>
+    </div>
+     <div class="card-footer text-left">
+        <cancel></cancel>
+        <submit />
+    </div>
+</form>
