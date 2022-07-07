@@ -117,7 +117,7 @@ public class ProductService : IProductService
 
     public async Task<ProductShopResult> GetProductForShop(ProductShopFilterParam filterParams)
     {
-        var url = $"{ModuleName}?pageId={filterParams.PageId}&take={filterParams.Take}" +
+        var url = $"{ModuleName}/Shop?pageId={filterParams.PageId}&take={filterParams.Take}" +
                   $"&categorySlug={filterParams.CategorySlug}&onlyAvailableProducts={filterParams.OnlyAvailableProducts}" +
                   $"&search={filterParams.Search}&SearchOrderBy={filterParams.SearchOrderBy}&JustHasDiscount={filterParams.JustHasDiscount}";
 

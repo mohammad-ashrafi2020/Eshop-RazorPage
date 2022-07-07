@@ -1,956 +1,254 @@
 ﻿@page
 @using System.Security.Claims
+@using Eshop.RazorPage.Infrastructure
+@using Eshop.RazorPage.Models.Banners
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    var banners = Model.MainPageData.Banners;
+    var topSlider = banners.FirstOrDefault(f => f.Position == BannerPosition.بالای_اسلایدر);
+    var leftSlider = banners.Where(f => f.Position == BannerPosition.سمت_چپ_اسلایدر).ToList();
+    var rightSpecial = banners.Where(f => f.Position == BannerPosition.سمت_راست_شگفت_انگیز).ToList();
+    var middlePage = banners.Where(f => f.Position == BannerPosition.وسط_صفحه).ToList();
+
 }
-<div class="row d-none d-sm-block">
-                    <div class="col-12 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-lg-01.gif" alt="banner">
+@if (topSlider != null)
+{
+    <div class="row d-none d-sm-block">
+        <div class="col-12 mb-3">
+            <div class="banner">
+                <a href="@topSlider.Link">
+                    <img src="@Directories.GetBannerImage(topSlider.ImageName)" alt="topSlider">
+                </a>
+            </div>
+        </div>
+    </div>
+}
+<div class="row mb-4">
+    <div class="col-lg-8 ml-lg-0 mb-3">
+        <div class="main-slider">
+            <div class="swiper-container main-page-slider">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.MainPageData.Sliders)
+                    {
+                        <div class="swiper-slide">
+                            <a href="@item.Link">
+                                <img src="@Directories.GetSliderImages(item.ImageName)" alt="@item.Title">
+                            </a>
+                        </div>
+
+                    }
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            <div class="swiper-container main-page-slider-thumbs d-none d-sm-block">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model.MainPageData.Sliders)
+                    {
+                        <div class="swiper-slide">
+                            <span>@item.Title</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="row">
+            @if (leftSlider.Any())
+            {
+                @foreach (var item in leftSlider.Take(2))
+                {
+                    <div class="col-lg-12 col-sm-6 col-12">
+                        <div class="banner mb-3">
+                            <a href="@item.Link">
+                                <img src="@Directories.GetBannerImage(item.ImageName)" alt="leftSlider">
                             </a>
                         </div>
                     </div>
+
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="row align-items-center mb-4">
+    <div class="col-lg-4 order-2 order-lg-1">
+        <div class="row mt-4 mt-lg-0">
+            @if (rightSpecial.Any())
+            {
+                @foreach (var item in rightSpecial.Take(2))
+                {
+                    <div class="col-lg-12 col-sm-6 col-12">
+                        <div class="banner mb-3">
+                            <a href="@item.Link">
+                                <img src="@Directories.GetBannerImage(item.ImageName)" alt="rightSlider">
+                            </a>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+    @if (Model.MainPageData.SpectialProducts.Any())
+    {
+        <div class="col-lg-8 order-1 order-lg-2">
+            <div class="offer-slider-wrapper">
+                <div class="offer-slider-title">پیشنهاد شگفت انگیز</div>
+                <div class="row">
+                    <div class="col-12 mb-1">
+                        <div class="swiper-container offer-slider">
+                            <div class="swiper-wrapper">
+
+                                @foreach (var item in Model.MainPageData.SpectialProducts.OrderByDescending(f => f.Id))
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="row align-items-center pb-3">
+                                            <div class="col-sm-6 col-12 order-2 order-sm-1">
+                                                <div class="product-title">
+                                                    <a href="/product/@item.Slug">
+                                                        @item.Title
+                                                    </a>
+                                                </div>
+                                                <div class="product-price">
+                                                    <del>@item.Price.ToString("#,0") تومان</del>
+                                                    @item.TotalPrice.ToString("#,0") تومان
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-12 order-1 order-sm-2">
+                                                <div class="offer-slide-content">
+                                                    <div class="product-thumbnail">
+                                                        <a href="/product/@item.Slug">
+                                                            <img src="@Directories.GetProductImage(item.ImageName)"
+                                                         alt="@item.Title">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row mb-4">
-                    <div class="col-lg-8 ml-lg-0 mb-3">
-                        <div class="main-slider">
-                            <div class="swiper-container main-page-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-1.jpg" alt="">
-                                        </a>
+                <div class="row align-items-center pb-4">
+                    <div class="col-lg-8 mt-2 mb-4 mb-lg-0">
+                        <div class="offer-slider-thumbs-wrapper">
+                            <div class="px-0 px-sm-5">
+                                <div class="swiper-container offer-slider-thumbs">
+                                    <div class="swiper-wrapper">
+                                        @foreach (var item in Model.MainPageData.SpectialProducts.OrderByDescending(f => f.Id))
+                                        {
+                                            <div class="swiper-slide">
+                                                <img src="@Directories.GetProductImage(item.ImageName)" alt="@item.Title" />
+                                            </div>
+                                        }
                                     </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-2.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-3.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-4.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-5.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-6.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-7.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-8.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a href="#">
-                                            <img src="./assets/images/main-slider/slider-9.jpg" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- Add Arrows -->
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
-                            </div>
-                            <div class="swiper-container main-page-slider-thumbs d-none d-sm-block">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <span>جشنواره هوآوی</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>سوپرمارکت همتا</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>خرید سر ماه</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>خانگی برقی</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>ایکس ویژن</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>فعال سازی رمز پویا</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>محصولات ورزشی</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>صوتی تصویری</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <span>فروش ویژه موبایل</span>
-                                    </div>
+                                    <div class="swiper-pagination"></div>
                                 </div>
                             </div>
+                            <div class="offer-slider-button-next"><i class="far fa-chevron-left"></i></div>
+                            <div class="offer-slider-button-prev"><i class="far fa-chevron-right"></i></div>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-6 col-12">
-                                <div class="banner mb-3">
-                                    <a href="#">
-                                        <img src="./assets/images/banner/banner-md-03.gif" alt="banner">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-sm-6 col-12">
-                                <div class="banner">
-                                    <a href="#">
-                                        <img src="./assets/images/banner/banner-md-2.jpg" alt="banner">
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            <div id="countdown--offer-slider"></div>
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center mb-4">
-                    <div class="col-lg-4 order-2 order-lg-1">
-                        <div class="row mt-4 mt-lg-0">
-                            <div class="col-lg-12 col-sm-6 col-12">
-                                <div class="banner mb-4">
-                                    <a href="#">
-                                        <img src="./assets/images/banner/banner-md-05.gif" alt="banner">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-sm-6 col-12">
-                                <div class="banner">
-                                    <a href="#">
-                                        <img src="./assets/images/banner/banner-md-04.gif" alt="banner">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 order-1 order-lg-2">
-                        <div class="offer-slider-wrapper">
-                            <div class="offer-slider-title">پیشنهاد شگفت انگیز</div>
-                            <div class="row">
-                                <div class="col-12 mb-1">
-                                    <div class="swiper-container offer-slider">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <div class="row align-items-center pb-3">
-                                                    <div class="col-sm-6 col-12 order-2 order-sm-1">
-                                                        <div class="product-title">
-                                                            <a href="#">
-                                                                گوشی موبایل سامسونگ مدل Galaxy Note10 Lite SM-N770F/DS
-                                                                دو سیم کارت ظرفیت 128 گیگابایت
-                                                            </a>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <del>13,699,000 تومان</del>
-                                                            13,250,000 تومان
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-12 order-1 order-sm-2">
-                                                        <div class="offer-slide-content">
-                                                            <div class="product-thumbnail">
-                                                                <a href="#">
-                                                                    <img src="./assets/images/offer-slider/01.jpg"
-                                                                         alt="item">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="row align-items-center pb-3">
-                                                    <div class="col-sm-6 col-12 order-2 order-sm-1">
-                                                        <div class="product-title">
-                                                            <a href="#">هدفون بی سیم سامسونگ مدل Galaxy Buds Live</a>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <del>2,988,000 تومان</del>
-                                                            2,450,000 تومان
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-12 order-1 order-sm-2">
-                                                        <div class="offer-slide-content">
-                                                            <div class="product-thumbnail">
-                                                                <a href="#">
-                                                                    <img src="./assets/images/offer-slider/02.jpg"
-                                                                         alt="item">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="row align-items-center pb-3">
-                                                    <div class="col-sm-6 col-12 order-2 order-sm-1">
-                                                        <div class="product-title">
-                                                            <a href="#">
-                                                                ساعت هوشمند سامسونگ مدل Galaxy Watch Active2
-                                                                44mm
-                                                            </a>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <del>5,650,000 تومان</del>
-                                                            5,020,000 تومان
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-12 order-1 order-sm-2">
-                                                        <div class="offer-slide-content">
-                                                            <div class="product-thumbnail">
-                                                                <a href="#">
-                                                                    <img src="./assets/images/offer-slider/03.jpg"
-                                                                         alt="item">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="row align-items-center pb-3">
-                                                    <div class="col-sm-6 col-12 order-2 order-sm-1">
-                                                        <div class="product-title">
-                                                            <a href="#">هدفون بی سیم مدل inpods 12</a>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <del>130,000 تومان</del>
-                                                            109,000 تومان
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-12 order-1 order-sm-2">
-                                                        <div class="offer-slide-content">
-                                                            <div class="product-thumbnail">
-                                                                <a href="#">
-                                                                    <img src="./assets/images/offer-slider/04.jpg"
-                                                                         alt="item">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="row align-items-center pb-3">
-                                                    <div class="col-sm-6 col-12 order-2 order-sm-1">
-                                                        <div class="product-title">
-                                                            <a href="#">
-                                                                ساعت هوشمند سامسونگ مدل Galaxy Watch Active2
-                                                                44mm Leatherband Smart
-                                                            </a>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <del>6,299,000 تومان</del>
-                                                            5,999,000 تومان
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-12 order-1 order-sm-2">
-                                                        <div class="offer-slide-content">
-                                                            <div class="product-thumbnail">
-                                                                <a href="#">
-                                                                    <img src="./assets/images/offer-slider/05.jpg"
-                                                                         alt="item">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row align-items-center pb-4">
-                                <div class="col-lg-8 mt-2 mb-4 mb-lg-0">
-                                    <div class="offer-slider-thumbs-wrapper">
-                                        <div class="px-0 px-sm-5">
-                                            <div class="swiper-container offer-slider-thumbs">
-                                                <div class="swiper-wrapper">
-                                                    <div class="swiper-slide">
-                                                        <img src="./assets/images/offer-slider/01.jpg" alt="item">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="./assets/images/offer-slider/02.jpg" alt="item">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="./assets/images/offer-slider/03.jpg" alt="item">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="./assets/images/offer-slider/04.jpg" alt="item">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="./assets/images/offer-slider/05.jpg" alt="item">
-                                                    </div>
-                                                </div>
-                                                <!-- Add Pagination -->
-                                                <div class="swiper-pagination"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Add Arrows -->
-                                        <div class="offer-slider-button-next"><i class="far fa-chevron-left"></i></div>
-                                        <div class="offer-slider-button-prev"><i class="far fa-chevron-right"></i></div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="d-flex justify-content-center">
-                                        <div id="countdown--offer-slider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    }
+</div>
+<section class="product-carousel in-box">
+    <div class="section-title">
+        <i class="fad fa-pen-nib"></i>
+        آخرین محصولات
+    </div>
+    <div class="swiper-container slider-lg">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.MainPageData.LatestProducts)
+            {
+                <div class="swiper-slide">
+                    <partial name="Shared/_ProductCart" model="@item" />
                 </div>
-                <section class="product-carousel in-box">
-                    <div class="section-title">
-                        <i class="fad fa-pen-nib"></i>
-                        میز تحریر
-                    </div>
-                    <div class="swiper-container slider-lg">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/01.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">
-                                                میز تحریر تاشوو تنظیم شو میلاد سفید
-                                                70
-                                            </a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/02.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">میز تحریر مدل M191</a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/03.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">
-                                                میز تحریر و لپ تاپ تاشو سایز بزرگ مدل
-                                                G0025
-                                            </a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/04.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">میز تحریر مدل 80 Owens B</a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/05.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">میز تحریر مدل الیت</a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/06.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">میز تحریر مدل چند حالته MT11</a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/07.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">
-                                                میز تحریر تاشو و تنظیم شو سپهر یاس مدل
-                                                60
-                                            </a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="product-card">
-                                    <div class="product-card-top">
-                                        <a href="" class="product-image">
-                                            <img src="./assets/images/products/08.jpg" alt="product image">
-                                        </a>
-                                        <div class="product-card-actions">
-                                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-card-middle">
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 65%;"></div>
-                                            </div>
-                                        </div>
-                                        <h6 class="product-name">
-                                            <a href="#">
-                                                میز تحریر باکسدار و صندلی طرح توت فرنگی
-                                                (وایت بردی،تاشو،تنظیم شونده ارتفاع)
-                                            </a>
-                                        </h6>
-                                        <div class="product-price product-price-clone">650,000 تومان</div>
-                                    </div>
-                                    <div class="product-card-bottom">
-                                        <div class="product-price">
-                                            650,000 تومان
-                                        </div>
-                                        <a href="#" class="btn-add-to-cart">
-                                            <i class="fad fa-cart-plus"></i>
-                                            افزودن به سبد خرید
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </section>
-                <div class="row mb-5">
-                    <div class="col-md-3 col-6 mb-lg-0 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-sm-01.jpg" alt="banner">
+
+            }
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+
+<div class="row mb-5">
+    @if (middlePage.Any())
+    {
+        @foreach (var item in middlePage.Take(2))
+        {
+            <div class="col-lg-12 col-sm-6 col-12">
+                <div class="banner mb-3">
+                    <a href="@item.Link">
+                        <img src="@Directories.GetBannerImage(item.ImageName)" alt="mSlider">
+                    </a>
+                </div>
+            </div>
+
+        }
+    }
+</div>
+<div class="row mb-5">
+    <div class="col-12 mb-4">
+        <div class="section-title">
+            <i class="fad fa-sort-size-up-alt"></i>
+            محبوب ترین محصولات
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row">
+            @foreach (var item in Model.MainPageData.TopVisitProducts)
+            {
+                var link = $"/product/{item.Slug}";
+
+                <div class="col-md-6">
+                    <div class="product-card product-card-horizontal border-bottom">
+                        <div class="product-card-top">
+                            <a href="@link" class="product-image">
+                                <img src="@Directories.GetProductImage(item.ImageName)" alt="@item.Title">
                             </a>
+                            <div class="product-card-actions">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 col-6 mb-lg-0 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-sm-02.jpg" alt="banner">
-                            </a>
+                        <div class="product-card-middle">
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    <div class="ratings-val" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                            <h6 class="product-name">
+                                <a href="@link">@item.Title</a>
+                            </h6>
+                            <div class="product-price product-price-clone">@item.TotalPrice.ToString("#,0") تومان</div>
                         </div>
-                    </div>
-                    <div class="col-md-3 col-6 mb-lg-0 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-sm-03.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-3  col-6 mb-lg-0 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-sm-04.jpg" alt="banner">
+                        <div class="product-card-bottom">
+                            <div class="product-price">
+                                @item.TotalPrice.ToString("#,0") تومان
+                            </div>
+                            <a href="#" class="btn-add-to-cart">
+                                <i class="fad fa-cart-plus"></i>
+                                افزودن به سبد خرید
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-5">
-                    <div class="col-md-6 mb-lg-0 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-md-01.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-lg-0 mb-3">
-                        <div class="banner">
-                            <a href="#">
-                                <img src="./assets/images/banner/banner-md-02.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-12 mb-4">
-                        <div class="section-title">
-                            <i class="fad fa-sort-size-up-alt"></i>
-                            پرفروش ترین ها
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="product-card product-card-horizontal border-bottom">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/01.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر تاشوو تنظیم شو میلاد سفید
-                                        70
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-card product-card-horizontal border-bottom">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/02.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل M191</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-card product-card-horizontal">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/03.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر و لپ تاپ تاشو سایز بزرگ مدل
-                                        G0025
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="product-card product-card-horizontal border-bottom">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/04.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل 80 Owens B</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-card product-card-horizontal border-bottom">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/05.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل الیت</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-card product-card-horizontal">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/06.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل چند حالته MT11</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="product-card product-card-horizontal border-bottom">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/07.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر تاشو و تنظیم شو سپهر یاس مدل
-                                        60
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-card product-card-horizontal border-bottom">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/08.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر باکسدار و صندلی طرح توت فرنگی
-                                        (وایت بردی،تاشو،تنظیم شونده ارتفاع)
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-card product-card-horizontal">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="./assets/images/products/02.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل M191</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            }
+        </div>
+    </div>
+
+</div>

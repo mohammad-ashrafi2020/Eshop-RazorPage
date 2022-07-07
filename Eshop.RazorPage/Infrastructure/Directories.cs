@@ -26,5 +26,11 @@
         {
             return $"{SiteSettings.ServerPath}{BannerImages}/{imageName}";
         }
+
+        public static string GetSliderImages(string imageName)
+        {
+            return $"{SiteSettings.ServerPath}{SliderImages}/{imageName}";
+
+        }
     }
 }

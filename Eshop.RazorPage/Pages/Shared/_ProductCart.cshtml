@@ -1,0 +1,36 @@
+﻿@using Eshop.RazorPage.Infrastructure
+@model Eshop.RazorPage.Models.Products.ProductShopDto
+@{
+    var link = $"/product/{Model.Slug}";
+}
+<div class="product-card">
+    <div class="product-card-top">
+        <a href="@link" class="product-image">
+            <img src="@Directories.GetProductImage(Model.ImageName)" alt="@Model.Title">
+        </a>
+        <div class="product-card-actions">
+        </div>
+    </div>
+    <div class="product-card-middle">
+        <div class="ratings-container">
+            <div class="ratings">
+                <div class="ratings-val" style="width: 65%;"></div>
+            </div>
+        </div>
+        <h6 class="product-name">
+            <a href="@link">
+                @Model.Title
+            </a>
+        </h6>
+        <div class="product-price product-price-clone">@Model.TotalPrice.ToString("#,0") تومان</div>
+    </div>
+    <div class="product-card-bottom">
+        <div class="product-price">
+            @Model.TotalPrice.ToString("#,0") تومان
+        </div>
+        <a href="#" class="btn-add-to-cart">
+            <i class="fad fa-cart-plus"></i>
+            افزودن به سبد خرید
+        </a>
+    </div>
+</div>
