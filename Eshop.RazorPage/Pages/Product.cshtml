@@ -1,0 +1,295 @@
+﻿@page "{slug}"
+@using Eshop.RazorPage.Infrastructure
+@model Eshop.RazorPage.Pages.ProductModel
+@{
+    var inventory = Model.ProductPageModel.Inventories.OrderBy(b => b.TotalPrice).FirstOrDefault();
+}
+<div class="row mb-1">
+    <div class="col-12">
+        <div class="breadcrumb mb-1">
+            <nav>
+                <a href="/">فروشگاه اینترنتی</a>
+                <a href="/search?category=@Model.ProductPageModel.ProductDto.Category.Slug">@Model.ProductPageModel.ProductDto.Category.Title</a>
+                <a href="/search?category=@Model.ProductPageModel.ProductDto.Category.Slug">@Model.ProductPageModel.ProductDto.SubCategory.Title</a>
+                @if (Model.ProductPageModel.ProductDto.SecondarySubCategory != null)
+                {
+                    <a href="/search?category=@Model.ProductPageModel.ProductDto.SecondarySubCategory.Slug">@Model.ProductPageModel.ProductDto.SecondarySubCategory.Title</a>
+
+                }
+                <a>@Model.ProductPageModel.ProductDto.Title</a>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="product-detail shadow-around mb-5 py-5">
+    <div class="row mb-3 mx-0">
+        <div class="col-xl-4 col-lg-4 col-md-6">
+            <div class="product-gallery">
+                <div class="swiper-container gallery-slider">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="@Directories.GetProductImage(Model.ProductPageModel.ProductDto.ImageName)"
+                                 data-zoom-image="@Directories.GetProductImage(Model.ProductPageModel.ProductDto.ImageName)" class="zoom-image"
+                                 alt="@Model.ProductPageModel.ProductDto.Title">
+                        </div>
+                        @foreach (var item in Model.ProductPageModel.ProductDto.Images.OrderBy(d => d.Sequence))
+                        {
+                            <div class="swiper-slide">
+                                <img src="@Directories.GetProductImageGallery(item.ImageName)"
+                                 data-zoom-image="@Directories.GetProductImageGallery(item.ImageName)" class="zoom-image"
+                                 alt="@Model.ProductPageModel.ProductDto.Title">
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="swiper-container gallery-slider-thumbs">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="@Directories.GetProductImage(Model.ProductPageModel.ProductDto.ImageName)"
+                                 data-zoom-image="@Directories.GetProductImage(Model.ProductPageModel.ProductDto.ImageName)"
+                                 alt="@Model.ProductPageModel.ProductDto.Title">
+                        </div>
+                        @foreach (var item in Model.ProductPageModel.ProductDto.Images.OrderBy(d => d.Sequence))
+                        {
+                            <div class="swiper-slide">
+                                <img src="@Directories.GetProductImageGallery(item.ImageName)"
+                                 data-zoom-image="@Directories.GetProductImageGallery(item.ImageName)"
+                                 alt="@Model.ProductPageModel.ProductDto.Title">
+                            </div>
+                        }
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+                <ul class="product--actions">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#shareLinkModal">
+                            <i class="fas fa-share-alt"></i>
+                        </a>
+                        <span class="tooltip--action">اشتراک گذاری</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xl-5 col-lg-4 col-md-6">
+            <div class="product-title mb-3">
+                <h1>
+                    @Model.ProductPageModel.ProductDto.Title
+                </h1>
+            </div>
+            <div class="product-params-special">
+                <ul data-title="ویژگی‌های محصول">
+                    @foreach (var item in Model.ProductPageModel.ProductDto.Specifications.Take(4))
+                    {
+                        <li>
+                            <span>@item.Key:</span>
+                            <span>@item.Value</span>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+            <div class="alert alert-warning">
+                <div class="alert-body">
+                    <p class="d-flex align-items-center">
+                        <i class="fad fa-history ml-2"></i>
+                        حداکثر تا 3 روز تحویل داده می شود.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            @if (inventory == null)
+            {
+                <div class="box-info-product">
+                    <div class="d-flex align-items-center">
+                        <div class="alert alert-warning">
+                            فروشنده ای برای این محصول وجود ندارد
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+
+                <div class="box-info-product">
+                    <div class="d-block mb-3">
+                        <span class="d-block">
+                            تعداد:
+                        </span>
+                        <div class="num-block">
+                            <div class="num-in">
+                                <span class="plus"></span>
+                                <input type="text" class="in-num" value="1" readonly="">
+                                <span class="minus dis"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-end mt-3">
+                        <div class="product-price">
+                            @if (inventory.DiscountPercentage > 0)
+                            {
+                                <div class="product-price-info">
+                                    <div class="product-price-off">
+                                        %@inventory.DiscountPercentage <span>تخفیف</span>
+                                    </div>
+                                    <div class="product-price-prev">
+                                        @inventory.Price.ToString("#,0")
+                                    </div>
+                                </div>
+                            }
+                            <div class="product-price-real">
+                                <div class="product-price-raw">@inventory.TotalPrice.ToString("#,0") </div>
+                                تومان
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+
+                        <a href="#" class="add-to-cart">
+                            افزودن به سبد خرید
+                        </a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="py-3">
+        <div class="row mx-0">
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="services pt-3 row mx-0">
+        <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+            <div class="service-item">
+                <img src="/assets/images/services/delivery-person.png" alt="">
+                <div class="service-item-body">
+                    <h6>تحویل سریع و رایگان</h6>
+                    <p>تحویل رایگان کالا برای کلیه سفارشات بیش از 500 هزار تومان</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+            <div class="service-item">
+                <img src="/assets/images/services/recieve.png" alt="">
+                <div class="service-item-body">
+                    <h6>۷ روز ضمانت بازگشت</h6>
+                    <p>در صورت نارضایتی به هر دلیلی می توانید محصول را بازگردانید</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+            <div class="service-item">
+                <img src="/assets/images/services/headset.png" alt="">
+                <div class="service-item-body">
+                    <h6>پشتیبانی ۲۴ ساعته</h6>
+                    <p>در صورت وجود هرگونه سوال یا ابهامی، با ما در تماس باشید</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+            <div class="service-item">
+                <img src="/assets/images/services/debit-card.png" alt="">
+                <div class="service-item-body">
+                    <h6>پرداخت آنلاین ایمن</h6>
+                    <p>محصولات مدنظر خود را با خیال آسوده به صورت آنلاین خریداری کنید</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- product-tab-content -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="product-tab-content">
+            <ul class="nav nav-tabs" id="product-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="productDescription-tab" data-toggle="tab"
+                       href="#productDescription" role="tab" aria-controls="productDescription"
+                       aria-selected="true">توضیحات</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="productParams-tab" data-toggle="tab" href="#productParams"
+                       role="tab" aria-controls="productParams" aria-selected="false">مشخصات فنی</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="productComments-tab" data-toggle="tab"
+                       href="#productComments" role="tab" aria-controls="productComments"
+                       aria-selected="false">نظرات</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="product-tab">
+                <div class="tab-pane fade show active" id="productDescription" role="tabpanel"
+                     aria-labelledby="productDescription-tab">
+                    <div class="product-desc">
+                        <div class="accordion accordion-product" id="accordionDescription">
+                            <div class="card">
+                                @Html.Raw(Model.ProductPageModel.ProductDto.Description)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="productParams" role="tabpanel"
+                     aria-labelledby="productParams-tab">
+                    <div class="product-params">
+                        <section>
+                            <h3 class="params-title">مشخصات کلی</h3>
+                            <ul class="params-list">
+                                @foreach (var item in Model.ProductPageModel.ProductDto.Specifications)
+                                {
+                                    <li>
+                                        <div class="params-list-key">
+                                            <span>@item.Key</span>
+                                        </div>
+                                        <div class="params-list-value">
+                                            <span>
+                                                @item.Value
+                                            </span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </section>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="productComments" role="tabpanel"
+                     aria-labelledby="productComments-tab">
+                    <!-- product-review -->
+                    <div class="product-review-form mb-3">
+                        <form action="#">
+                            <div class="row align-items-center">
+
+                                <div class="col-12">
+                                    <div class="form-element-row">
+                                        <label class="label-element">نظر شما</label>
+                                        <textarea name="comment" id="comment" cols="30" rows="10"
+                                                  class="input-element"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary px-3">
+                                            ارسالارسال نظرنظر <i class="fad fa-comment-alt-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="section-title mb-1 mt-4">
+                            نظرات کاربران (۵)
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

@@ -105,6 +105,12 @@ public class ProductService : IProductService
         return result?.Data;
     }
 
+    public async Task<SingleProductDto?> GetSingleProduct(string slug)
+    {
+        var result = await _client.GetFromJsonAsync<ApiResult<SingleProductDto?>>($"{ModuleName}/single/{slug}");
+        return result?.Data;
+    }
+
     public async Task<ProductFilterResult> GetProductByFilter(ProductFilterParams filterParams)
     {
         var url = $"{ModuleName}?pageId={filterParams.PageId}&take={filterParams.Take}" +
