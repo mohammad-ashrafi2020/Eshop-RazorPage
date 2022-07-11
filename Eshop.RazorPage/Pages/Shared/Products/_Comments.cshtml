@@ -12,9 +12,36 @@
             </p>
             <div class="footer">
                 <div class="comments-likes">
-                    <button class="btn-like btn-danger">حذف</button>
+                    <delete-item url="/product/slug/deleteComment?id=@item.Id" class="btn-like">حذف</delete-item>
                 </div>
             </div>
         </div>
     }
+</div>
+<div class="row">
+    <div class="col-12 px-0">
+        <div class="pagination">
+            @if (Model.CurrentPage > 1)
+            {
+                <a href="#commentScroll" onclick="changeCommentPage('@(Model.CurrentPage-1)')" class="prev"><i class="far fa-arrow-from-left"></i></a>
+
+            }
+            @for (var i = Model.StartPage; i <= Model.EndPage; i++)
+            {
+                @if (i == Model.CurrentPage)
+                {
+                    <a  class="current">@i</a>
+                }
+                else
+                {
+                    <a href="#commentScroll" onclick="changeCommentPage('@i')">@i</a>
+                }
+
+            }
+           @if (Model.CurrentPage < Model.PageCount)
+           {
+               <a href="#commentScroll" onclick="changeCommentPage('@(Model.CurrentPage+1)')" class="next"><i class="far fa-arrow-to-left"></i></a>
+           }
+        </div>
+    </div>
 </div>

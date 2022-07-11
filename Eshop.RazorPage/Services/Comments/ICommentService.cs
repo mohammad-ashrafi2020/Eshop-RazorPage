@@ -8,6 +8,7 @@ public interface ICommentService
     Task<ApiResult> AddComment(AddCommentCommand command);
     Task<ApiResult> EditComment(EditCommentCommand command);
     Task<ApiResult> ChangeStatus(long commentId, CommentStatus status);
+    Task<ApiResult> DeleteComment(long commentId);
 
 
     Task<CommentFilterResult> GetCommentsByFilter(CommentFilterParams filterParams);

@@ -3,8 +3,12 @@
 @model Eshop.RazorPage.Pages.ProductModel
 @{
     var inventory = Model.ProductPageModel.Inventories.OrderBy(b => b.TotalPrice).FirstOrDefault();
+    var title = Model.ProductPageModel.ProductDto.SeoData.MetaTitle;
+    if (string.IsNullOrWhiteSpace(title))
+        title = Model.ProductPageModel.ProductDto.Title;
+    ViewData["title"] = title;
 }
-<input type="hidden" id="productId" value="@Model.ProductPageModel.ProductDto.Id"/>
+<input type="hidden" id="productId" value="@Model.ProductPageModel.ProductDto.Id" />
 <div class="row mb-1">
 
     <div class="col-12">
@@ -290,7 +294,7 @@
                 <div class="tab-pane fade" id="productComments" role="tabpanel"
                      aria-labelledby="productComments-tab">
                     <!-- product-review -->
-                    <div class="product-review-form mb-3">
+                    <div class="product-review-form mb-3" id="commentScroll">
                         @if (Model.User.Identity.IsAuthenticated)
                         {
                             <form method="post">
@@ -316,8 +320,10 @@
                         else
                         {
                             <div class="alert alert-warning">
-                                <p>برای ثبت نظر باید 
-                                    <a asp-page="/auth/login" asp-route-redirectTo="/product/@Model.ProductPageModel.ProductDto.Slug">وارد حساب کاربری</a> خود شوید</p>
+                                <p>
+                                    برای ثبت نظر باید
+                                    <a asp-page="/auth/login" asp-route-redirectTo="/product/@Model.ProductPageModel.ProductDto.Slug">وارد حساب کاربری</a> خود شوید
+                                </p>
                             </div>
                         }
                         <div class="section-title mb-1 mt-4">
@@ -336,7 +342,7 @@
     </div>
 </div>
 @section Scripts
-{
+    {
     <script>
         $(document).ready(function() {
             var productId = $("#productId").val();
@@ -347,5 +353,15 @@
                 $("#comments").html(data);
             });
         })
+
+        function changeCommentPage(pageId) {
+            var productId = $("#productId").val();
+            $.ajax({
+                url: `/product/slug/ProductComments?productId=${productId}&pageId=${pageId}`,
+                type: "get"
+            }).done(function(data) {
+                $("#comments").html(data);
+            });
+        }
     </script>
 }

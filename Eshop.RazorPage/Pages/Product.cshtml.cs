@@ -56,7 +56,11 @@ public class ProductModel : BaseRazorPage
     }
     public async Task<IActionResult> OnGetProductComments(long productId, int pageId = 1)
     {
-        var commentResult = await _commentService.GetProductComments(pageId,12,productId);
+        var commentResult = await _commentService.GetProductComments(pageId, 14, productId);
         return Partial("Shared/Products/_Comments", commentResult);
+    }
+    public async Task<IActionResult> OnPostDeleteComment(long id)
+    {
+        return await AjaxTryCatch(() => _commentService.DeleteComment(id));
     }
 }
