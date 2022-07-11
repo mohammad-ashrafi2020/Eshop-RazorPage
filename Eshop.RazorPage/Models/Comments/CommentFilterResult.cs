@@ -6,10 +6,10 @@ public class CommentFilterResult : BaseFilter<CommentDto, CommentFilterParams>
 }
 public class CommentFilterParams : BaseFilterParam
 {
-    public int UserId { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public int CommentStatus { get; set; }
+    public int? UserId { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public CommentStatus? CommentStatus { get; set; }
 }
 public class CommentDto : BaseDto
 {

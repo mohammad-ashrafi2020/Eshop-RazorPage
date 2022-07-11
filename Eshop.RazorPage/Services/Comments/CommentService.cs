@@ -1,4 +1,5 @@
-﻿using Eshop.RazorPage.Models;
+﻿using Eshop.RazorPage.Infrastructure;
+using Eshop.RazorPage.Models;
 using Eshop.RazorPage.Models.Categories;
 using Eshop.RazorPage.Models.Comments;
 using Eshop.RazorPage.Services.Banners;
@@ -34,7 +35,27 @@ public class CommentService : ICommentService
 
     public async Task<CommentFilterResult> GetCommentsByFilter(CommentFilterParams filterParams)
     {
-        var result = await _client.GetFromJsonAsync<ApiResult<CommentFilterResult>>($"comment");
+        var url = filterParams.GenerateBaseFilterUrl("comment");
+        if (filterParams.UserId != null)
+            url += $"&UserId={filterParams.UserId}";
+
+        if (filterParams.CommentStatus != null)
+            url += $"&CommentStatus={filterParams.CommentStatus}";
+
+        if (filterParams.StartDate != null)
+            url += $"&StartDate{filterParams.StartDate}";
+
+        if (filterParams.EndDate != null)
+            url += $"&EndDate{filterParams.EndDate}";
+
+        var result = await _client.GetFromJsonAsync<ApiResult<CommentFilterResult>>(url);
+        return result?.Data;
+    }
+
+    public async Task<CommentFilterResult> GetProductComments(int pageId, int take, long productId)
+    {
+        var url = $"comment/productComments?pageId={pageId}&take={take}&productId={productId}";
+        var result = await _client.GetFromJsonAsync<ApiResult<CommentFilterResult>>(url);
         return result?.Data;
     }
 

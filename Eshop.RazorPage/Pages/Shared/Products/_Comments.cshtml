@@ -1,0 +1,20 @@
+﻿@model Eshop.RazorPage.Models.Comments.CommentFilterResult
+
+<div class="comments-list">
+    @foreach (var item in Model.Data)
+    {
+        <div class="article">
+            <div class="header">
+                <div>@item.UserFullName</div>
+            </div>
+            <p>
+                @item.Text
+            </p>
+            <div class="footer">
+                <div class="comments-likes">
+                    <button class="btn-like btn-danger">حذف</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

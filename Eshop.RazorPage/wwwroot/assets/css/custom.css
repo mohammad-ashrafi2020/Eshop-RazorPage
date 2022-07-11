@@ -12,3 +12,38 @@
     color: red;
     border-color: red
 }
+.sellers .card-body {
+    display: flex;
+    align-items: baseline;
+    font-size: 15px;
+}
+
+.seller-item {
+    font-size: 17px;
+}
+
+.seller-item {
+    flex: 1;
+    text-align: left;
+}
+
+.shop-name {
+    text-align: right;
+    font-weight: bold;
+}
+
+.seller-item.add-to-cart {
+    flex: 2;
+}
+
+@media (max-width: 495px) {
+    .sellers .card-body {
+        flex-direction: column;
+    }
+
+    .seller-item {
+        margin: 10px 0;
+        text-align: center;
+        width: 100%;
+    }
+}

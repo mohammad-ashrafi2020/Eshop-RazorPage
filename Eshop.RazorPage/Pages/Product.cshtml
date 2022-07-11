@@ -1,10 +1,12 @@
-﻿@page "{slug}"
+﻿@page "{slug}/{handler?}"
 @using Eshop.RazorPage.Infrastructure
 @model Eshop.RazorPage.Pages.ProductModel
 @{
     var inventory = Model.ProductPageModel.Inventories.OrderBy(b => b.TotalPrice).FirstOrDefault();
 }
+<input type="hidden" id="productId" value="@Model.ProductPageModel.ProductDto.Id"/>
 <div class="row mb-1">
+
     <div class="col-12">
         <div class="breadcrumb mb-1">
             <nav>
@@ -201,7 +203,36 @@
         </div>
     </div>
 </div>
-<!-- product-tab-content -->
+@if (Model.ProductPageModel.Inventories.Count > 1)
+{
+    <h6>
+        لیست فروشندگان این کالا
+
+    </h6>
+    <div class="sellers my-3">
+        <ul>
+            @foreach (var item in Model.ProductPageModel.Inventories)
+            {
+                <li class="card">
+                    <div class="card-body p-3">
+                        <p class="seller-item shop-name">
+                            <i class="fa fa-warehouse-alt ml-2"></i>
+                            @item.ShopName
+                        </p>
+                        <div class="seller-item add-to-cart">
+                            <b class="text-danger ">@item.TotalPrice.ToString("#,0")</b> <small>تومان</small>
+                            <a class="btn btn-danger mr-3">
+                                <i class="fa fa-shopping-cart"></i>
+                                افزودن به سبد خرید
+                            </a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        </ul>
+    </div>
+}
 <div class="row mb-5">
     <div class="col-12">
         <div class="product-tab-content">
@@ -260,29 +291,40 @@
                      aria-labelledby="productComments-tab">
                     <!-- product-review -->
                     <div class="product-review-form mb-3">
-                        <form action="#">
-                            <div class="row align-items-center">
-
-                                <div class="col-12">
-                                    <div class="form-element-row">
-                                        <label class="label-element">نظر شما</label>
-                                        <textarea name="comment" id="comment" cols="30" rows="10"
+                        @if (Model.User.Identity.IsAuthenticated)
+                        {
+                            <form method="post">
+                                @Html.HiddenFor(f=>f.ProductPageModel.ProductDto.Id)
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            <label class="label-element">نظر شما</label>
+                                            <textarea name="comment" required="" cols="30" rows="10"
                                                   class="input-element"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary px-3">
+                                                ارسال نظر <i class="fad fa-comment-alt-edit"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <button class="btn btn-primary px-3">
-                                            ارسالارسال نظرنظر <i class="fad fa-comment-alt-edit"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning">
+                                <p>برای ثبت نظر باید 
+                                    <a asp-page="/auth/login" asp-route-redirectTo="/product/@Model.ProductPageModel.ProductDto.Slug">وارد حساب کاربری</a> خود شوید</p>
                             </div>
-                        </form>
+                        }
                         <div class="section-title mb-1 mt-4">
-                            نظرات کاربران (۵)
+                            نظرات کاربران
                         </div>
-                        <hr/>
+                        <hr />
+                        <div id="comments"></div>
                     </div>
                 </div>
 
@@ -293,3 +335,17 @@
 
     </div>
 </div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            var productId = $("#productId").val();
+            $.ajax({
+                url: `/product/slug/ProductComments?productId=${productId}&pageId=1`,
+                type: "get"
+            }).done(function(data) {
+                $("#comments").html(data);
+            });
+        })
+    </script>
+}
