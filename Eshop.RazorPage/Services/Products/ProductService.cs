@@ -125,7 +125,9 @@ public class ProductService : IProductService
     {
         var url = $"{ModuleName}/Shop?pageId={filterParams.PageId}&take={filterParams.Take}" +
                   $"&categorySlug={filterParams.CategorySlug}&onlyAvailableProducts={filterParams.OnlyAvailableProducts}" +
-                  $"&search={filterParams.Search}&SearchOrderBy={filterParams.SearchOrderBy}&JustHasDiscount={filterParams.JustHasDiscount}";
+                  $"&search={filterParams.Search}&SearchOrderBy={filterParams.SearchOrderBy}";
+        if (filterParams.JustHasDiscount != null)
+            url += $"&JustHasDiscount={filterParams.JustHasDiscount}";
 
         var result = await _client.GetFromJsonAsync<ApiResult<ProductShopResult>>(url);
         return result?.Data;

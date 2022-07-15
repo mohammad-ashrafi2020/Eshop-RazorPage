@@ -1,0 +1,206 @@
+﻿@page
+@using Eshop.RazorPage.Services.Categories
+@model Eshop.RazorPage.Pages.SearchModel
+
+@inject ICategoryService _CategoryService
+@{
+    var title = "لیست محصولات";
+    if (Model.FilterResult.CategoryDto != null)
+    {
+        title = Model.FilterResult.CategoryDto.Title;
+
+    }
+    else if (string.IsNullOrWhiteSpace(Model.FilterResult.FilterParams.Search) == false)
+    {
+        title = Model.FilterResult.FilterParams.Search;
+    }
+    ViewData["title"] = title;
+    var categories = await _CategoryService.GetCategories();
+}
+<div class="row mb-5">
+    <div class="col-lg-3 col-md-4 sticky-sidebar filter-options-sidebar">
+        <div class="d-md-none">
+            <div class="header-filter-options">
+                <span>جستجوی پیشرفته <i class="fad fa-sliders-h"></i></span>
+                <button class="btn-close-filter-sidebar"><i class="fal fa-times"></i></button>
+            </div>
+        </div>
+        <div class="sidebar-widget">
+            <form type="get" id="serachForm" class="widget widget-filter-options shadow-around">
+                <div class="widget-title">دسته بندی ها</div>
+
+                <div class="widget-content">
+                    @foreach (var item in categories)
+                    {
+                        <label class="container-checkbox">
+                            @item.Title
+                            <input name="category" checked="@(item.Slug==Model.FilterResult.FilterParams.CategorySlug?"checked":null)" value="@item.Slug" type="radio" onchange="filterCategory()">
+                            <span class="checkmark"></span>
+                        </label>
+                    }
+                </div>
+            </form>
+            <div class="widget shadow-around">
+                <div class="widget-content">
+                    <div class="custom-control custom-switch">
+                        @{
+                            var justAvailable = Model.FilterResult.FilterParams.OnlyAvailableProducts;
+                        }
+                        <input type="checkbox" value="true" checked="@(justAvailable is true? "checked" : null)" class="custom-control-input" id="customSwitch1">
+                        <label class="custom-control-label" for="customSwitch1">
+                            فقط کالاهای موجود در
+                            انبار
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="widget shadow-around">
+                <div class="widget-content">
+                    <div class="custom-control custom-switch">
+                        @{
+                            var hasDiscount = Model.FilterResult.FilterParams.JustHasDiscount;
+                        }
+                        <input type="checkbox" value="true" checked="@(hasDiscount is true? "checked" : null)" class="custom-control-input" id="customSwitch2">
+                        <label class="custom-control-label" for="customSwitch2">فقط محصولات تخفیف دار</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-8">
+        <div class="d-md-none">
+            <button class="btn-filter-sidebar">
+                جستجوی پیشرفته <i class="fad fa-sliders-h"></i>
+            </button>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- breadcrumb -->
+                <div class="breadcrumb mb-2 pt-2">
+                    <nav>
+                        <a href="/">فروشگاه اینترنتی</a>
+                        @if (Model.FilterResult.CategoryDto != null)
+                        {
+                            <a class="active">@Model.FilterResult.CategoryDto.Title</a>
+                        }
+                        else
+                        {
+                            if (string.IsNullOrWhiteSpace(Model.FilterResult.FilterParams.Search) == false)
+                            {
+                                <a class="active">
+                                    نتایج جستوجوی '@Model.FilterResult.FilterParams.Search'
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="active">جستوجوی محصولات</a>
+                            }
+                        }
+                    </nav>
+                </div>
+                <!-- end breadcrumb -->
+            </div>
+        </div>
+        <div class="listing-items row">
+            @if (Model.FilterResult.EntityCount == 0)
+            {
+                <div class="col-12 m-0 alert alert-warning">
+                    محصولی برای نمایش وجود ندارد
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model.FilterResult.Data)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 px-0">
+                        <partial name="Shared/_ProductCart" model="@item" />
+                    </div>
+                }
+
+            }
+            @if (Model.FilterResult.PageCount > 1)
+            {
+                <div class="col-12 px-0">
+
+                    <div class="pagination">
+                        @if (Model.FilterResult.CurrentPage > 1)
+                        {
+                            <a href="#commentScroll" onclick="changePageId('@(Model.FilterResult.CurrentPage - 1)')" class="prev"><i class="far fa-arrow-from-left"></i></a>
+
+                        }
+                        @for (var i = Model.FilterResult.StartPage; i <= Model.FilterResult.EndPage; i++)
+                        {
+                            @if (i == Model.FilterResult.CurrentPage)
+                            {
+                                <a class="current">@i</a>
+                            }
+                            else
+                            {
+                                <a href="#commentScroll" onclick="changePageId('@i')">@i</a>
+                            }
+
+                        }
+                        @if (Model.FilterResult.CurrentPage < Model.FilterResult.PageCount)
+                        {
+                            <a href="#commentScroll" onclick="changePageId('@(Model.FilterResult.CurrentPage + 1)')" class="next"><i class="far fa-arrow-to-left"></i></a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts
+    {
+    <script>
+        function filterCategory(slug) {
+            $("#serachForm").submit();
+        }
+
+        function changePageId(pageId) {
+            var url = new URL(window.location.href);
+            var search_params = url.searchParams;
+            search_params.set('pageId', pageId);
+            url.search = search_params.toString();
+            var new_url = url.toString();
+            window.location.replace(new_url);
+        }
+        $("#customSwitch2").change(function() {
+            var isChecked = document.getElementById("customSwitch2").checked;
+            var url = new URL(window.location.href);
+            var search_params = url.searchParams;
+
+            if (isChecked) {
+                search_params.set('haveDiscount', "true");
+                url.search = search_params.toString();
+                var new_url = url.toString();
+
+                window.location.replace(new_url);
+            } else {
+                search_params.delete("haveDiscount");
+                url.search = search_params.toString();
+                var new_url = url.toString();
+                window.location.replace(new_url);
+            }
+        });
+        $("#customSwitch1").change(function() {
+            var isChecked = document.getElementById("customSwitch1").checked;
+            var url = new URL(window.location.href);
+            var search_params = url.searchParams;
+
+            if (isChecked) {
+                search_params.set('justAvailableProducts', "true");
+                url.search = search_params.toString();
+                var new_url = url.toString();
+
+                window.location.replace(new_url);
+            } else {
+                var url = new URL(window.location.href);
+                search_params.set('justAvailableProducts', "false");
+                url.search = search_params.toString();
+                var new_url = url.toString();
+                window.location.replace(new_url);
+            }
+        });
+    </script>
+}
