@@ -26,3 +26,23 @@
         }
     });
 }
+function addToCart(inventoryId, count) {
+    var token = $("#ajax-token input[name='__RequestVerificationToken']").val();
+
+    $.ajax({
+        url: `/shopcart/addItem?inventoryId=${inventoryId}&count=${count}`,
+        type: "post",
+        data: {
+            __RequestVerificationToken: token
+        },
+        beforeSend: function (xhr) {
+            $(".loading").show();
+        },
+        complete: function () {
+            $(".loading").hide();
+        },
+    }).done(function (data) {
+        var res = JSON.parse(data);
+        CallBackHandler(res);
+    });
+}
