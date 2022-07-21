@@ -3,6 +3,6 @@
 public class DecreaseOrderItemCountCommand
 {
     public long UserId { get; set; }
-    public long OrderItemId { get; set; }
+    public long ItemId { get; set; }
     public int Count { get; set; }
 }

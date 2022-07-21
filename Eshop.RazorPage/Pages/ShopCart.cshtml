@@ -4,7 +4,7 @@
 @{
     ViewData["title"] = "سبد خرید";
 }
-@if (Model.OrderDto == null)
+@if (Model.OrderDto == null || Model.OrderDto.Items.Count == 0)
 {
     <div class="text-center">
         <div class="alert alert-info">سبد خرید شما خالی می باشد</div>
@@ -14,90 +14,123 @@
 else
 {
     <div class="row mb-4">
-    <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
-        <div class="checkout-section shadow-around">
-            <div class="checkout-step">
-                <ul>
-                    <li class="active"><span>سبد خرید</span></li>
-                    <li>
-                        <span>نحوه ارسال و پرداخت</span>
-                    </li>
-                    <li>
-                        <span>اتمام خرید و ارسال</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="checkout-section-content">
-                <div class="cart-items">
-                    @foreach (var item in Model.OrderDto.Items)
-                    {
-                        <div class="cart-item py-4 px-3">
-                            <div class="item-thumbnail">
-                                <a href="#">
-                                    <img src="@Directories.GetProductImage(item.ProductImageName)" alt="@item.ProductTitle">
-                                </a>
-                            </div>
-                            <div class="item-info flex-grow-1">
-                                <div class="item-title">
-                                    <h2>
-                                        <a href="/product/@item.ProductSlug">
-                                            @item.ProductTitle
-                                        </a>
-                                    </h2>
+        <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+            <div class="checkout-section shadow-around">
+                <div class="checkout-step">
+                    <ul>
+                        <li class="active"><span>سبد خرید</span></li>
+                        <li>
+                            <span>نحوه ارسال و پرداخت</span>
+                        </li>
+                        <li>
+                            <span>اتمام خرید و ارسال</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="checkout-section-content">
+                    <div class="cart-items">
+                        @foreach (var item in Model.OrderDto.Items)
+                        {
+                            <div class="cart-item py-4 px-3">
+                                <div class="item-thumbnail">
+                                    <a href="#">
+                                        <img src="@Directories.GetProductImage(item.ProductImageName)" alt="@item.ProductTitle">
+                                    </a>
                                 </div>
-                                <div class="item-detail">
-                                    <ul>
-                                        <li>
-                                            <i class="far fa-store-alt text-muted"></i>
-                                            <span>@item.ShopName</span>
-                                        </li>
-                                        <li>
-                                            <i class="far fa-clipboard-check text-primary"></i>
-                                            <span>موجود در انبار</span>
-                                        </li>
-                                    </ul>
-                                    <div class="item-quantity--item-price">
-                                        <div class="item-quantity">
-                                            <div class="num-block">
-                                                <div class="num-in">
-                                                    <span class="plus"></span>
-                                                    <input type="text" class="in-num" value="@item.Count" readonly>
-                                                    <span class="minus dis"></span>
+                                <div class="item-info flex-grow-1">
+                                    <div class="item-title">
+                                        <h2>
+                                            <a href="/product/@item.ProductSlug">
+                                                @item.ProductTitle
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <div class="item-detail">
+                                        <ul>
+                                            <li>
+                                                <i class="far fa-store-alt text-muted"></i>
+                                                <span>@item.ShopName</span>
+                                            </li>
+                                            <li>
+                                                <i class="far fa-clipboard-check text-primary"></i>
+                                                <span>موجود در انبار</span>
+                                            </li>
+                                        </ul>
+                                        <div class="item-quantity--item-price">
+                                            <div class="item-quantity">
+                                                <div class="num-block">
+                                                    <div class="num-in">
+                                                        <span class="plus" onclick="pluse('@item.Id')"></span>
+                                                        <input type="text" class="in-num" value="@item.Count" readonly>
+                                                        <span onclick="minus('@item.Id')" class="minus @(item.Count==1?"dis":null)"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <delete-item class="item-remove-btn mr-3" url="@Url.Page("ShopCart","DeleteItem",new {id=item.Id})" >
-                                                <i class="far fa-trash-alt"></i>
-                                                حذف
-                                            </delete-item>
+                                                <delete-item class="item-remove-btn mr-3" url="@Url.Page("ShopCart","DeleteItem",new {id=item.Id})">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    حذف
+                                                </delete-item>
 
-                                        </div>
-                                        <div class="item-price">
-                                            @item.TotalPrice.ToString("#,0")<span class="text-sm mr-1">تومان</span>
+                                            </div>
+                                            <div class="item-price">
+                                                @item.TotalPrice.ToString("#,0")<span class="text-sm mr-1">تومان</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-4">
+            <div class="shadow-around pt-3">
+                <div class="d-flex justify-content-between px-3 py-2">
+                    <span class="text-muted">قیمت کالاها (@Model.OrderDto.Items.Sum(s=>s.Count))</span>
+                    <span class="text-muted">
+                        @Model.OrderDto.Items.Sum(s=>s.TotalPrice).ToString("#,0")
+                        <span class="text-sm">تومان</span>
+                    </span>
+                </div>
+                <hr>
+                <div class="d-flex px-3 py-4">
+                    <a href="/checkout" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-4 col-md-4">
-        <div class="shadow-around pt-3">
-            <div class="d-flex justify-content-between px-3 py-2">
-                <span class="text-muted">قیمت کالاها (@Model.OrderDto.Items.Sum(s=>s.Count))</span>
-                <span class="text-muted">
-                    @Model.OrderDto.Items.Sum(s=>s.TotalPrice).ToString("#,0")
-                    <span class="text-sm">تومان</span>
-                </span>
-            </div>
-            <hr>
-            <div class="d-flex px-3 py-4">
-                <a href="/checkout" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
-            </div>
-        </div>
-    </div>
-</div>
 }
+
+
+@section Scripts
+    {
+    <script>
+        var token = $("#ajax-token input[name='__RequestVerificationToken']").val();
+
+        function pluse(id) {
+            $.ajax({
+                url: "/shopcart/IncreaseItemCount?id="+id,
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+            }).done(function(data) {
+                var res = JSON.parse(data);
+                CallBackHandler(res);
+            });
+        }
+        function minus(id) {
+            $.ajax({
+                url: "/shopcart/DecreaseItemCount?id="+id,
+                type: "post",
+                data: {
+                    __RequestVerificationToken: token
+                },
+            }).done(function(data) {
+                var res = JSON.parse(data);
+                CallBackHandler(res);
+            });
+        }
+    </script>
+                    }

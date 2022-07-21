@@ -47,6 +47,25 @@ namespace Eshop.RazorPage.Pages
 
         }
 
+        public async Task<IActionResult> OnPostIncreaseItemCount(long id)
+        {
+            return await AjaxTryCatch(() => _orderService.IncreaseOrderItem(new IncreaseOrderItemCountCommand()
+            {
+                Count = 1,
+                UserId = User.GetUserId(),
+                ItemId = id
+
+            }));
+        }
+        public async Task<IActionResult> OnPostDecreaseItemCount(long id)
+        {
+            return await AjaxTryCatch(() => _orderService.DecreaseOrderItem(new DecreaseOrderItemCountCommand()
+            {
+                Count = 1,
+                UserId = User.GetUserId(),
+                ItemId = id
+            }));
+        }
         public async Task<IActionResult> OnPostAddItem(long inventoryId, int count)
         {
             if (User.Identity.IsAuthenticated)

@@ -126,7 +126,7 @@
                         <div class="num-block">
                             <div class="num-in">
                                 <span class="plus"></span>
-                                <input type="text" class="in-num" value="1" readonly="">
+                                <input type="text" id="item_count" class="in-num" value="1" readonly="">
                                 <span class="minus dis"></span>
                             </div>
                         </div>
@@ -151,8 +151,8 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
-
-                        <a href="#" class="add-to-cart">
+                
+                        <a href="#" onclick="addToCartWithCount('@inventory.Id')" class="add-to-cart">
                             افزودن به سبد خرید
                         </a>
                     </div>
@@ -225,7 +225,7 @@
                         </p>
                         <div class="seller-item add-to-cart">
                             <b class="text-danger ">@item.TotalPrice.ToString("#,0")</b> <small>تومان</small>
-                            <a class="btn btn-danger mr-3">
+                            <a class="btn btn-danger mr-3" onclick="addToCart('@item.Id','1')">
                                 <i class="fa fa-shopping-cart"></i>
                                 افزودن به سبد خرید
                             </a>
@@ -362,6 +362,14 @@
             }).done(function(data) {
                 $("#comments").html(data);
             });
+        }
+
+        function addToCartWithCount(id) {
+            var count = $("#item_count").val();
+            if (count <= 0)
+                count = 1;
+
+            addToCart(id,count);
         }
     </script>
 }
