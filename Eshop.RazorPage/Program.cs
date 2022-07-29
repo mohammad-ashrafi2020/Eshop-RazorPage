@@ -1,20 +1,7 @@
 using System.Security.Claims;
 using System.Text;
 using Eshop.RazorPage.Infrastructure;
-using Eshop.RazorPage.Services.Auth;
-using Eshop.RazorPage.Services.Banners;
-using Eshop.RazorPage.Services.Categories;
-using Eshop.RazorPage.Services.Comments;
-using Eshop.RazorPage.Services.Orders;
-using Eshop.RazorPage.Services.Products;
-using Eshop.RazorPage.Services.Roles;
-using Eshop.RazorPage.Services.Sellers;
-using Eshop.RazorPage.Services.Sliders;
-using Eshop.RazorPage.Services.UserAddress;
-using Eshop.RazorPage.Services.Users;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);

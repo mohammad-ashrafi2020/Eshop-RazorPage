@@ -46,3 +46,54 @@ function addToCart(inventoryId, count) {
         CallBackHandler(res);
     });
 }
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/shopcart/shopcartDetail",
+        type: "get"
+    }).done(function (data) {
+        var bagElements = $(".bag-items-number");
+        try {
+            bagElements[0].innerHTML = data.count;
+            bagElements[1].innerHTML = data.count;
+        } catch {
+
+        }
+        $(".cart-footer .total").html(data.price)
+        if (data.items.length == 0) {
+            $('.cart-list ul').remove();
+        } else {
+            data.items.map((i) => {
+                $(".cart-items .do-nice-scroll").append(`
+                        <li class="cart-item">
+                                    <span class="d-flex align-items-center mb-2">
+                                        <a href="/product/${i.productSlug}">
+                                            <img src="https://localhost:5001/images/products/${i.productImageName}" alt="">
+                                        </a>
+                                        <span>
+                                            <a href="#">
+                                                <span class="title-item">
+                                                    ${i.productTitle}
+                                                </span>
+                                            </a>
+                                            <span class="color d-flex align-items-center">
+                                                تعداد:
+                                                <label style='display:contents'>${i.count}</label>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="price">${splitNumber(i.totalPrice)} تومان</span>
+                                    <button class="remove-item" onclick="DeleteItem('/ShopCart/DeleteItem?id=${i.id}','')">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </li>
+            `);
+            })
+        }
+        
+    });
+});
+
+function splitNumber(value) {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

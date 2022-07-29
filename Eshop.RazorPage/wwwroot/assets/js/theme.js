@@ -676,6 +676,6 @@
 
     $(window).on("load", function () {});
     $(document).ready(function () {
-        HAMTA.StickyHeader(), HAMTA.CategoryList(), HAMTA.ResponsiveHeader(), HAMTA.SearchResult(), HAMTA.SweetAlert(), HAMTA.NiceScroll(), HAMTA.BackToTop(), HAMTA.Tooltip(), HAMTA.CollapseWidget(), HAMTA.ProductAddTo(), HAMTA.Select2(), HAMTA.SwiperSlider(), HAMTA.Quantity(), HAMTA.FilterPrice(), HAMTA.FilterOptions(), HAMTA.StickySidebar(), HAMTA.FilterOptionsSidebar(), HAMTA.ResponsiveTabOrderList(), HAMTA.ZoomImage(), HAMTA.ColorSwitcher();
+        HAMTA.StickyHeader(), HAMTA.CategoryList(), HAMTA.ResponsiveHeader(), HAMTA.SearchResult(), HAMTA.SweetAlert(), HAMTA.NiceScroll(), HAMTA.BackToTop(), HAMTA.Tooltip(), HAMTA.CollapseWidget(), HAMTA.ProductAddTo(), HAMTA.Select2(), HAMTA.SwiperSlider(), HAMTA.FilterPrice(), HAMTA.FilterOptions(), HAMTA.StickySidebar(), HAMTA.FilterOptionsSidebar(), HAMTA.ResponsiveTabOrderList(), HAMTA.ZoomImage(), HAMTA.ColorSwitcher();
     });
 })(jQuery);

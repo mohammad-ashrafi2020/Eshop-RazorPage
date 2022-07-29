@@ -95,7 +95,15 @@ else
                 </div>
                 <hr>
                 <div class="d-flex px-3 py-4">
-                    <a href="/checkout" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-page="Checkout" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
+
+                    }
+                    else
+                    {
+                        <a asp-page="/auth/login" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
+                    }
                 </div>
             </div>
         </div>
@@ -110,7 +118,7 @@ else
 
         function pluse(id) {
             $.ajax({
-                url: "/shopcart/IncreaseItemCount?id="+id,
+                url: "/shopcart/IncreaseItemCount?id=" + id,
                 type: "post",
                 data: {
                     __RequestVerificationToken: token
@@ -122,7 +130,7 @@ else
         }
         function minus(id) {
             $.ajax({
-                url: "/shopcart/DecreaseItemCount?id="+id,
+                url: "/shopcart/DecreaseItemCount?id=" + id,
                 type: "post",
                 data: {
                     __RequestVerificationToken: token

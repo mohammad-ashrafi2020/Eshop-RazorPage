@@ -19,6 +19,10 @@ public class ShopCartCookieManager
         _productService = productService;
     }
 
+    public void DeleteShopCart()
+    {
+        _cookieManager.Remove(CookieShopCartName);
+    }
     public OrderDto? GetShopCart()
     {
         return _cookieManager.Get<OrderDto>(CookieShopCartName);
@@ -117,7 +121,7 @@ public class ShopCartCookieManager
             return;
         var item = shopCart.Items.FirstOrDefault(f => f.Id == itemId);
 
-        if (item == null || item.Count==1)
+        if (item == null || item.Count == 1)
             return;
         item.Count -= 1;
         SetCookie(shopCart);
