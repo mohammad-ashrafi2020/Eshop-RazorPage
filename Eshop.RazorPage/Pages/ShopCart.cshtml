@@ -97,12 +97,12 @@ else
                 <div class="d-flex px-3 py-4">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-page="Checkout" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
+                        <a asp-page="/Checkout/Index" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
 
                     }
                     else
                     {
-                        <a asp-page="/auth/login" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
+                        <a asp-page="/auth/login?RedirectTo=/checkout" class="btn btn-danger btn-block py-2">ادامه فرایند خرید</a>
                     }
                 </div>
             </div>

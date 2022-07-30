@@ -9,6 +9,7 @@ using Eshop.RazorPage.Services.Orders;
 using Eshop.RazorPage.Services.Products;
 using Eshop.RazorPage.Services.Roles;
 using Eshop.RazorPage.Services.Sellers;
+using Eshop.RazorPage.Services.ShippingMethods;
 using Eshop.RazorPage.Services.Sliders;
 using Eshop.RazorPage.Services.UserAddress;
 using Eshop.RazorPage.Services.Users;
@@ -32,7 +33,14 @@ public static class RegisterDependencyServices
         services.AddScoped<ShopCartCookieManager>();
 
         services.AddCookieManager();
+
         services.AddHttpClient<IAuthService, AuthService>(httpClient =>
+        {
+            httpClient.BaseAddress = new Uri(baseAddress);
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
+
+        services.AddHttpClient<IShippingMethodService, ShippingMethodService>(httpClient =>
         {
             httpClient.BaseAddress = new Uri(baseAddress);
         }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();

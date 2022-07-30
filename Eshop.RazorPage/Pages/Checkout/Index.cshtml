@@ -1,0 +1,189 @@
+﻿@page
+@model Eshop.RazorPage.Pages.Checkout.IndexModel
+@{
+    var totalPrice = Model.Order.TotalPrice;
+
+    @if (Model.Order.ShippingMethod == null)
+    {
+        totalPrice += +Model.ShippingMethods.First().Cost;
+    }
+
+}
+<div class="row mb-4">
+    <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+        <div class="checkout-section shadow-around">
+            <div class="checkout-step">
+                <ul>
+                    <li class="active">
+                        <a href="/shopcart"><span>سبد خرید</span></a>
+                    </li>
+                    <li class="active">
+                        <span>نحوه ارسال و پرداخت</span>
+                    </li>
+                    <li>
+                        <span>اتمام خرید و ارسال</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="checkout-section-content">
+                <div class="checkout-section-title">آدرس تحویل سفارش</div>
+                <div class="row mx-0">
+                    @foreach (var item in Model.Addresses)
+                    {
+                        var id = $"customRadio{item.Id}";
+
+                        <div class="col-xl-3 col-lg-4 col-sm-6 mb-3">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="@id" checked="@(item.ActiveAddress?"checked":null)" name="customRadio"
+                                   class="custom-control-input">
+                                <label class="custom-control-label address-select" for="">
+                                    @if (item.ActiveAddress)
+                                    {
+                                        <span class="head-address-select">به این آدرس ارسال شود</span>
+                                    }
+                                    else
+                                    {
+                                        <span onclick="activeAddress('@item.Id')" class="head-address-select">به این آدرس ارسال شود</span>
+
+                                    }
+                                    <span>@item.PostalAddress</span>
+                                    <span>
+                                        <i class="fa fa-user"></i>
+                                        @item.Name @item.Family
+                                    </span>
+                                    <a href="#" class="link--with-border-bottom edit-address-btn"
+                                   onclick="OpenModal('@Url.Page("../Profile/Addresses/Index", "ShowEditPage", new {addressId = item.Id})', 'defaultModal', 'افزودن آدرس')">
+                                        ویرایش
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </label>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-xl-3 col-lg-4 col-sm-6 mb-3">
+                        <div class="custom-control custom-radio">
+                            <button class="add-address" onclick="OpenModal('@Url.Page("../Profile/Addresses/Index","ShowAddPage")','defaultModal','افزودن آدرس')">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-section-title">شیوه پرداخت</div>
+                <div class="payment-selection">
+                    <div class="custom-control custom-radio custom-control-inline mb-3">
+                        <input type="radio" id="paymentSelection1" name="paymentSelection"
+                               class="custom-control-input" checked>
+                        <label class="custom-control-label payment-select" for="paymentSelection1">
+                            <span class="d-flex align-items-center">
+                                <i class="fad fa-credit-card"></i>
+                                <span>
+                                    <span class="title">پرداخت اینترنتی</span>
+                                    <span class="subtitle">آنلاین با تمامی کارت‌های بانکی</span>
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                <div class="checkout-section-title">شیوه ارسال سفارش</div>
+                <div class="payment-selection">
+                    @{
+                        var counter = 1;
+                    }
+                    <input type="hidden" id="totalPrice_value" value="@Model.Order.Items.Sum(s=>s.Price)" />
+                    @foreach (var item in Model.ShippingMethods)
+                    {
+                        var id = Guid.NewGuid();
+
+                        @if (Model.Order.ShippingMethod != null)
+                        {
+                            <div class="custom-control custom-radio custom-control-inline mb-3">
+                                <input type="radio" id="@id" name="shippingMethod"
+                               class="custom-control-input" checked="@(item.Title==Model.Order.ShippingMethod.ShippingType?"checked":null)" onchange="editPrice(@item.Cost)">
+                                <label class="custom-control-label payment-select" for="@id">
+                                    <span class="d-flex align-items-center">
+                                        <i class="fad fa-credit-card"></i>
+                                        <span>
+                                            <span class="title">@item.Title</span>
+                                            <span class="subtitle">@item.Cost.ToString("#,0") تومان</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="custom-control custom-radio custom-control-inline mb-3">
+                                <input type="radio" id="@id" name="shippingMethod"
+                               class="custom-control-input" checked="@(counter==1?"checked":null)" onchange="editPrice(@item.Cost)">
+                                <label class="custom-control-label payment-select" for="@id">
+                                    <span class="d-flex align-items-center">
+                                        <i class="fad fa-credit-card"></i>
+                                        <span>
+                                            <span class="title">@item.Title</span>
+                                            <span class="subtitle">@item.Cost.ToString("#,0") تومان</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+
+                        }
+
+
+
+                        counter += 1;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-4">
+        <div class="shadow-around pt-3">
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="text-muted">قیمت کالاها (@Model.Order.Items.Sum(s=>s.Count))</span>
+                <span class="text-muted">
+                    @Model.Order.Items.Sum(s=>s.TotalPrice).ToString("#,0")
+                    <span class="text-sm">تومان</span>
+                </span>
+            </div>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="text-muted">هزینه ارسال سفارش</span>
+                <span class="text-danger">
+                    @if (Model.Order.ShippingMethod == null)
+                    {
+                        <label id="shippingMethod_Label">@Model.ShippingMethods.First().Cost.ToString("#,0")</label>
+
+                    }
+                    else
+                    {
+                        <label id="shippingMethod_Label">@Model.Order.ShippingMethod.ShippingCost.ToString("#,0")</label>
+                    }
+
+                    <span class="text-sm">تومان</span>
+                </span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold">مبلغ قابل پرداخت</span>
+                <span class="font-weight-bold">
+                    <label id="totalPrice">@totalPrice.ToString("#,0")</label>
+                    <span class="text-sm">تومان</span>
+                </span>
+            </div>
+            <div class="d-flex px-3 py-4">
+                <a href="#" class="btn btn-danger btn-block py-2">پرداخت و ثبت نهایی سفارش</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        function editPrice(price) {
+            var totalPrice = parseInt($("#totalPrice_value").val()) + parseInt(price);
+            $("#shippingMethod_Label").html(splitNumber(price));
+            $("#totalPrice").html(splitNumber(totalPrice));
+        }
+    </script>
+            }
