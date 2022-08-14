@@ -21,7 +21,7 @@ public class OrderService : IOrderService
 
     public async Task<ApiResult> CheckoutOrder(CheckOutOrderCommand command)
     {
-        var result = await _client.PostAsJsonAsync("order", command);
+        var result = await _client.PostAsJsonAsync("order/checkout", command);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

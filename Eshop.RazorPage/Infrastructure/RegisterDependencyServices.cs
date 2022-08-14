@@ -11,6 +11,7 @@ using Eshop.RazorPage.Services.Roles;
 using Eshop.RazorPage.Services.Sellers;
 using Eshop.RazorPage.Services.ShippingMethods;
 using Eshop.RazorPage.Services.Sliders;
+using Eshop.RazorPage.Services.Transactions;
 using Eshop.RazorPage.Services.UserAddress;
 using Eshop.RazorPage.Services.Users;
 
@@ -35,6 +36,11 @@ public static class RegisterDependencyServices
         services.AddCookieManager();
 
         services.AddHttpClient<IAuthService, AuthService>(httpClient =>
+        {
+            httpClient.BaseAddress = new Uri(baseAddress);
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
+        services.AddHttpClient<ITransactionService, TransactionService>(httpClient =>
         {
             httpClient.BaseAddress = new Uri(baseAddress);
         }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();

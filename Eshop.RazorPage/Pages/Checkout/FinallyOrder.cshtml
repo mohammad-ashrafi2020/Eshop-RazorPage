@@ -1,0 +1,111 @@
+﻿@page "{orderId}"
+@using Eshop.RazorPage.Models.Orders
+@model Eshop.RazorPage.Pages.Checkout.FinallyOrderModel
+@{
+    ViewData["title"] = "اتمام پرداخت";
+}
+<div class="row mb-4">
+    <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+        <div class="checkout-section shadow-around">
+            <div class="checkout-step">
+                <ul>
+                    <li class="active">
+                        <a href="#"><span>سبد خرید</span></a>
+                    </li>
+                    <li class="active">
+                        <span>نحوه ارسال و پرداخت</span>
+                    </li>
+                    <li class="active">
+                        <span>اتمام خرید و ارسال</span>
+                    </li>
+                </ul>
+            </div>
+            @if (Model.OrderDto.Status == OrderStatus.Pending)
+            {
+                <div class="checkout-message">
+                    <div class="checkout-message-failed mb-3">
+                        <div class="icon-message failed-icon">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        سفارش <span class="order-code">@Model.OrderDto.Id</span> ثبت شد اما پرداخت ناموفق بود.
+                    </div>
+                    <div class="text-center text-muted">
+                        <p class="mb-1">
+                            برای جلوگیری از لغو سیستمی سفارش، تا ۱ ساعت آینده پرداخت را انجام دهید.
+                        </p>
+                        <p class="text-sm">
+                            چنانچه طی این فرایند مبلغی از حساب شما کسر شده است، طی ۷۲ ساعت آینده به حساب شما
+                            باز خواهد گشت.
+                        </p>
+                    </div>
+                </div>
+            }
+            else if (Model.OrderDto.Status == OrderStatus.Finally)
+            {
+                <div class="checkout-message">
+                    <div class="checkout-message-success mb-3">
+                        <div class="icon-message success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        سفارش <span class="order-code">@Model.OrderDto.Id</span> با موفقیت پرداخت و ثبت گردید.
+                    </div>
+                    <div class="text-center text-muted">
+                        <p class="mb-4">
+                            پرداخت با موفقیت انجام شد. سفارش شما با موفقیت ثبت شد و در
+                            زمان تعیین‌شده برای شما ارسال خواهد شد. از اینکه ما را برای خرید انتخاب کردید از
+                            شما سپاسگزاریم.
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-4">
+        <div class="shadow-around pt-3">
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="text-muted">نام تحویل گیرنده:</span>
+                <span class="text-muted">
+                    @Model.OrderDto.Address.Name @Model.OrderDto.Address.Family
+                </span>
+            </div>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="text-muted">شماره تماس :</span>
+                <span class="text-danger">
+                    @Model.OrderDto.Address.PhoneNumber
+                </span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold">مبلغ کل:</span>
+                <span class="font-weight-bold">
+                    @Model.OrderDto.TotalPrice.ToString("#,0")
+                    <span class="text-sm">تومان</span>
+                </span>
+            </div>
+            <hr>
+            <div class="px-3 py-2">
+                <span class="text-muted d-block">آدرس :</span>
+                <span class="text-info">
+                    @Model.OrderDto.Address.PostalAddress
+                </span>
+            </div>
+            <div class="px-3 py-4">
+
+                @if (Model.OrderDto.Status == OrderStatus.Pending)
+                {
+                    <a href="/checkout" class="d-flex align-items-center justify-content-center px-4 py-2 btn btn-danger">
+                        پرداخت
+                        مجدد<i class="fad fa-redo mr-3"></i>
+                    </a>
+                }
+                else if (Model.OrderDto.Status == OrderStatus.Finally)
+                {
+                    <a href="/profile/orders/show/@Model.OrderDto.Id" class="d-flex align-items-center justify-content-center px-4 py-2 btn btn-primary">
+                        پیگیری
+                        سفارش <i class="fad fa-clipboard-list mr-3"></i>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -99,7 +99,7 @@
                         {
                             <div class="custom-control custom-radio custom-control-inline mb-3">
                                 <input type="radio" id="@id" name="shippingMethod"
-                               class="custom-control-input" checked="@(item.Title==Model.Order.ShippingMethod.ShippingType?"checked":null)" onchange="editPrice(@item.Cost)">
+                               class="custom-control-input" value="@item.Id" checked="@(item.Title==Model.Order.ShippingMethod.ShippingType?"checked":null)" onchange="editPrice(@item.Cost)">
                                 <label class="custom-control-label payment-select" for="@id">
                                     <span class="d-flex align-items-center">
                                         <i class="fad fa-credit-card"></i>
@@ -114,7 +114,7 @@
                         else
                         {
                             <div class="custom-control custom-radio custom-control-inline mb-3">
-                                <input type="radio" id="@id" name="shippingMethod"
+                                <input type="radio" id="@id" value="@item.Id" name="shippingMethod"
                                class="custom-control-input" checked="@(counter==1?"checked":null)" onchange="editPrice(@item.Cost)">
                                 <label class="custom-control-label payment-select" for="@id">
                                     <span class="d-flex align-items-center">
@@ -171,7 +171,10 @@
                 </span>
             </div>
             <div class="d-flex px-3 py-4">
-                <a href="#" class="btn btn-danger btn-block py-2">پرداخت و ثبت نهایی سفارش</a>
+                <a href="javascript:void(0)" onclick="submitPage()" class="btn btn-danger btn-block py-2">پرداخت و ثبت نهایی سفارش</a>
+                <form method="post" id="checkoutForm">
+                    <input type="hidden" name="shippingMethodId" id="shippingMethodId" />
+                </form>
             </div>
         </div>
     </div>
@@ -181,9 +184,15 @@
     {
     <script>
         function editPrice(price) {
-            var totalPrice = parseInt($("#totalPrice_value").val()) + parseInt(price);
-            $("#shippingMethod_Label").html(splitNumber(price));
-            $("#totalPrice").html(splitNumber(totalPrice));
-        }
+                        var totalPrice = parseInt($("#totalPrice_value").val()) + parseInt(price);
+                        $("#shippingMethod_Label").html(splitNumber(price));
+                        $("#totalPrice").html(splitNumber(totalPrice));
+                    }
+
+                    function submitPage() {
+                       var shippingId= $("input[name='shippingMethod']:checked").val();
+                       $("#shippingMethodId").val(shippingId);
+                       $("#checkoutForm").submit();
+                    }
     </script>
             }

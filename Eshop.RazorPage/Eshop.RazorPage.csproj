@@ -20,6 +20,7 @@
     <Folder Include="Pages\SellerPanel\Orders\" />
     <Folder Include="Services\Auth\" />
     <Folder Include="Services\Banners\" />
+    <Folder Include="Services\Transactions\" />
   </ItemGroup>
 
   <ItemGroup>
