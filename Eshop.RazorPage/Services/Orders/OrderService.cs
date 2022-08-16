@@ -1,4 +1,5 @@
-﻿using Eshop.RazorPage.Models;
+﻿using Eshop.RazorPage.Infrastructure;
+using Eshop.RazorPage.Models;
 using Eshop.RazorPage.Models.Orders;
 using Eshop.RazorPage.Models.Orders.Command;
 
@@ -58,6 +59,16 @@ public class OrderService : IOrderService
     public async Task<OrderFilterResult> GetOrders(OrderFilterParams filterParams)
     {
         var result = await _client.GetFromJsonAsync<ApiResult<OrderFilterResult>>($"order");
+        return result?.Data;
+    }
+
+    public async Task<OrderFilterResult> GetUserOrders(int pageId, int take, OrderStatus? orderStatus)
+    {
+        var url = $"order/current/filter?pageId={pageId}&take={take}";
+        if (orderStatus != null)
+            url += $"&status={orderStatus}";
+        var result = await _client
+            .GetFromJsonAsync<ApiResult<OrderFilterResult>>(url);
         return result?.Data;
     }
 }
