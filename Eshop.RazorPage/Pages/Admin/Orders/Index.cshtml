@@ -1,0 +1,84 @@
+﻿@page
+@using Eshop.RazorPage.Models.Orders
+@using Eshop.RazorPage.Infrastructure.Utils
+@model Eshop.RazorPage.Pages.Admin.Orders.IndexModel
+@{
+    ViewData["title"] = "مدیریت محصولات";
+    ViewData["selected"] = "products_product";
+}
+<form class="card shadow-lg " method="get">
+    <div class="card-header text-left">
+        <a asp-page="Index" class="btn btn-danger btn-sm">حذف فیلتر</a>
+        <button type="submit" class="btn btn-primary btn-sm">فیلتر</button>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <label>شناسه کاربر</label>
+                <input type="number" asp-for="FilterParams.UserId" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label>وضعیت سفارش</label>
+                <select asp-for="FilterParams.Status" class="select2 form-control">
+                    <option value="null">همه</option>
+                    <option value="@OrderStatus.Finally">پرداخت شده</option>
+                    <option value="@OrderStatus.Rejected">مرجوع شده</option>
+                    <option value="@OrderStatus.Pending">در انتظار پرداخت</option>
+                    <option value="@OrderStatus.Shipping">ارسال شده</option>
+                </select>
+            </div>
+            <div class="col-md-6 mt-2">
+                <label>از تاریخ</label>
+                <input type="text" autocomplete="@null" class="form-control select-date" name="startDate" value="@Model.FilterParams.StartDate.ToPersianDate()" />
+            </div>
+            <div class="col-md-6 mt-2">
+                <label>تا تاریخ</label>
+
+                <input type="text" autocomplete="@null" class="form-control select-date" name="endDate" value="@Model.FilterParams.EndDate.ToPersianDate()" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card">
+    <div class="card-body table-responsive p-0">
+        <table class="table table-bordered table-hover text-center m-0">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>استان - شهر</th>
+                <th>تعداد محصولات</th>
+                <th>وضعیت</th>
+                <th>مبلغ</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.FilterResult.Data)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Shire @item.City</td>
+                    <td>@item.TotalItemCount</td>
+                    <td>@item.Status.ToString()</td>
+                    <td>@item.TotalPrice.ToString("#,0") تومان</td>
+                    <td>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script>
+        $(".select-date").datepicker({
+            dateFormat: "yy/mm/dd",
+            showOtherMonths: true,
+            selectOtherMonths: false
+        });
+    </script>
+                    }
