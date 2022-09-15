@@ -3,8 +3,8 @@
 @using Eshop.RazorPage.Infrastructure.Utils
 @model Eshop.RazorPage.Pages.Admin.Orders.IndexModel
 @{
-    ViewData["title"] = "مدیریت محصولات";
-    ViewData["selected"] = "products_product";
+    ViewData["title"] = "مدیریت سفارشات";
+    ViewData["selected"] = "orders";
 }
 <form class="card shadow-lg " method="get">
     <div class="card-header text-left">
@@ -44,33 +44,34 @@
     <div class="card-body table-responsive p-0">
         <table class="table table-bordered table-hover text-center m-0">
             <thead>
-            <tr>
-                <th>#</th>
-                <th>استان - شهر</th>
-                <th>تعداد محصولات</th>
-                <th>وضعیت</th>
-                <th>مبلغ</th>
-                <th>عملیات</th>
-            </tr>
+                <tr>
+                    <th>#</th>
+                    <th>استان - شهر</th>
+                    <th>تعداد محصولات</th>
+                    <th>وضعیت</th>
+                    <th>مبلغ</th>
+                    <th>عملیات</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.FilterResult.Data)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Shire @item.City</td>
-                    <td>@item.TotalItemCount</td>
-                    <td>@item.Status.ToString()</td>
-                    <td>@item.TotalPrice.ToString("#,0") تومان</td>
-                    <td>
-                    </td>
-                </tr>
-            }
+                @foreach (var item in Model.FilterResult.Data)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Shire @item.City</td>
+                        <td>@item.TotalItemCount</td>
+                        <td>@item.Status.ToString()</td>
+                        <td>@item.TotalPrice.ToString("#,0") تومان</td>
+                        <td>
+                            <a class="btn btn-primary" asp-page="Show" asp-route-id="@item.Id">نمایش</a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
-
+<partial name="Admin/Shared/_Pagination" model="Model.FilterResult" />
 
 @section Scripts
     {

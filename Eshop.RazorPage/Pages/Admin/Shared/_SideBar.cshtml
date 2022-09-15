@@ -43,6 +43,12 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item @(selected=="orders"?"active":null)">
+                <a href="/admin/orders">
+                    <i class="menu-livicon" data-icon="box"></i>
+                    <span class="menu-title" data-i18n="File Manager">مدیریت سفارشات</span>
+                </a>
+            </li>
             <li class="nav-item @(selected=="banners"?"active":null)">
                 <a href="/admin/banners">
                     <i class="menu-livicon" data-icon="box"></i>
@@ -55,7 +61,7 @@
                     <span class="menu-title" data-i18n="Dashboard">مدیریت کاربران</span>
                 </a>
                 <ul class="menu-content">
-                    <li class="@(selected=="products_product"?"active":null)">
+                    <li class="@(selected=="users"?"active":null)">
                         <a href="/admin/users">
                             <i class="bx bx-left-arrow-alt"></i>
                             <span class="menu-item" data-i18n="eCommerce">لیست کاربران</span>
@@ -78,10 +84,3 @@
         </ul>
     </div>
 </div>
-
-@section Scripts
-    {
-    <script src="/admin/vendors/libs/js/jdate/jdate.js"></script>
-    <script src="../../assets/vendor/libs/flatpickr/flatpickr-jdate.js"></script>
-    <script src="../../assets/vendor/libs/flatpickr/l10n/fa-jdate.js"></script>
-                            }

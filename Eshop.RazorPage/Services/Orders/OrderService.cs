@@ -58,7 +58,20 @@ public class OrderService : IOrderService
 
     public async Task<OrderFilterResult> GetOrders(OrderFilterParams filterParams)
     {
-        var result = await _client.GetFromJsonAsync<ApiResult<OrderFilterResult>>($"order");
+        var url = $"order/?pageId={filterParams.PageId}&take={filterParams.Take}";
+        if (filterParams.StartDate != null)
+            url += "&startDate=" + filterParams.StartDate;
+
+        if (filterParams.EndDate != null)
+            url += "&endDate=" + filterParams.EndDate;
+
+        if (filterParams.Status != null)
+            url += "&status=" + filterParams.Status;
+
+        if (filterParams.UserId != null)
+            url += "&UserId=" + filterParams.UserId;
+
+        var result = await _client.GetFromJsonAsync<ApiResult<OrderFilterResult>>(url);
         return result?.Data;
     }
 
