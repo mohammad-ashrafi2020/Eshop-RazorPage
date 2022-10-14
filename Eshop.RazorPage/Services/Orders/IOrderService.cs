@@ -11,6 +11,7 @@ public interface IOrderService
     Task<ApiResult> IncreaseOrderItem(IncreaseOrderItemCountCommand command);
     Task<ApiResult> DecreaseOrderItem(DecreaseOrderItemCountCommand command);
     Task<ApiResult> DeleteOrderItem(DeleteOrderItemCommand command);
+    Task<ApiResult> SendOrder(long orderId);
 
 
     Task<OrderDto?> GetOrderById(long orderId);

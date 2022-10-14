@@ -1,4 +1,75 @@
 ﻿@page "{id}"
+@using Eshop.RazorPage.Infrastructure
+@using Eshop.RazorPage.Infrastructure.Utils
+@using Eshop.RazorPage.Models.Orders
 @model Eshop.RazorPage.Pages.Admin.Orders.ShowModel
 @{
+    ViewData["title"] = "نمایش سفارش";
+    ViewData["selected"] = "orders";
+}
+<style>
+    .col-md-6 {
+        margin-bottom: 10px;
+    }
+
+    .col-md-12 {
+        margin-bottom: 10px;
+    }
+</style>
+<h5>اطلاعات سفارش</h5>
+<div class="card card-body">
+    <div class="row">
+        <div class="col-md-6">تاریخ ثبت : @Model.Order.CreationDate.ToPersianDateTime()</div>
+        <div class="col-md-6"> آخرین بروزرسانی : @Model.Order.LastUpdate.ToPersianDateTime()</div>
+        <div class="col-md-6">  وضعیت : @Model.Order.Status.ToString()</div>
+        <div class="col-md-6">  قیمت کل : @Model.Order.TotalPrice.ToString("#,0") تومان</div>
+        <div class="col-md-12">  نحوه ارسال سفاررش : @Model.Order.ShippingMethod?.ShippingType</div>
+        <div class="col-md-6">   هزینه ارسال سفارش : @Model.Order.ShippingMethod?.ShippingCost.ToString("#,0") تومان</div>
+    </div>
+</div>
+
+@if (Model.Order.Status != OrderStatus.Pending)
+{
+    <h5>اطلاعات خریدار</h5>
+    <div class="card card-body">
+        <div class="row">
+            <div class="col-md-6">نام و نام خانوادگی : @Model.Order.Address.Name @Model.Order.Address.Family</div>
+            <div class="col-md-6"> شماره تماس : @Model.Order.Address.PhoneNumber</div>
+            <div class="col-md-6">  استان : @Model.Order.Address.Shire</div>
+            <div class="col-md-6">  شهر : @Model.Order.Address.City</div>
+            <div class="col-md-12">  آدرس پستی : @Model.Order.Address.PostalAddress</div>
+            <div class="col-md-6">  کد پستی : @Model.Order.Address.PostalCode</div>
+            <div class="col-md-6">   کد ملی : @Model.Order.Address.PostalCode</div>
+        </div>
+    </div>
+}
+
+
+
+<h5>محصولات سفارش</h5>
+<div class="card card-body">
+    @foreach (var item in Model.Order.Items)
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <img style="max-width: 200px" src="@Directories.GetProductImage(item.ProductImageName)" />
+            </div>
+            <div class="col-md-10">
+                <p>
+                    @item.ProductTitle
+                </p>
+                <p>مبلغ کل : @item.TotalPrice.ToString("#,0") تومان</p>
+                <p>تعداد : @item.Count</p>
+                <p>فروشنده : @item.ShopName</p>
+            </div>
+
+        </div>
+    }
+</div>
+@if (Model.Order.Status == OrderStatus.Finally)
+{
+    <form method="post" class="mb-5">
+        <p>در صورتی محصولات را برای خریدار ارسال کردین ، روی دکمه زیر کلیک کنید</p>
+        <button class="btn btn-success">محصولات را ارسال کردم</button>
+    </form>
 }

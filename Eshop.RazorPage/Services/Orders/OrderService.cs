@@ -44,6 +44,12 @@ public class OrderService : IOrderService
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
+    public async Task<ApiResult> SendOrder(long orderId)
+    {
+        var result = await _client.PutAsync($"order/sendOrder/{orderId}",null);
+        return await result.Content.ReadFromJsonAsync<ApiResult>();
+    }
+
     public async Task<OrderDto?> GetOrderById(long orderId)
     {
         var result = await _client.GetFromJsonAsync<ApiResult<OrderDto?>>($"order/{orderId}");
