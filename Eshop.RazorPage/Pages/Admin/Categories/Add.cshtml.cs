@@ -49,6 +49,7 @@ public class AddModel : BaseRazorPage
 
         }
 
+
         var res = await _categoryService.AddChild(new AddChildCategoryCommand()
         {
             ParentId = (long)parentId,
