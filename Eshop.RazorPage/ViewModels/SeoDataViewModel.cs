@@ -16,8 +16,6 @@ public class SeoDataViewModel
 
     [DataType(DataType.Url)] public string? Canonical { get; set; } = "";
 
-    [DataType(DataType.MultilineText)] public string? Schema { get; set; } = "";
-
     public SeoData MapToSeoData()
     {
         return new SeoData()
@@ -27,7 +25,6 @@ public class SeoDataViewModel
             MetaDescription = MetaDescription,
             MetaKeyWords = MetaKeyWords,
             MetaTitle = MetaTitle,
-            Schema = Schema
         };
     }
 
@@ -40,7 +37,6 @@ public class SeoDataViewModel
             MetaDescription = seoData.MetaDescription,
             MetaKeyWords = seoData.MetaKeyWords,
             MetaTitle = seoData.MetaTitle,
-            Schema = seoData.Schema
         };
     }
 }

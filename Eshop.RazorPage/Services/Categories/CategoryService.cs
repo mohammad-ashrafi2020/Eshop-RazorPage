@@ -15,13 +15,43 @@ public class CategoryService : ICategoryService
 
     public async Task<ApiResult> CreateCategory(CreateCategoryCommand command)
     {
-        var result = await _client.PostAsJsonAsync("category", command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Slug), "Slug");
+
+        formData.Add(new StringContent(command.SeoData.MetaTitle), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+
+        if (string.IsNullOrWhiteSpace(command.SeoData.Canonical) == false)
+            formData.Add(new StringContent(command.SeoData.Canonical), "SeoData.Canonical");
+
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+
+        var result = await _client.PostAsync("category", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
     public async Task<ApiResult> EditCategory(EditCategoryCommand command)
     {
-        var result = await _client.PutAsJsonAsync("category", command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Id.ToString()), "Id");
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Slug), "Slug");
+
+        formData.Add(new StringContent(command.SeoData.MetaTitle), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+
+        if (string.IsNullOrWhiteSpace(command.SeoData.Canonical) == false)
+            formData.Add(new StringContent(command.SeoData.Canonical), "SeoData.Canonical");
+
+        if (command.ImageFile != null)
+            formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+
+        var result = await _client.PutAsync("category", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
@@ -33,7 +63,22 @@ public class CategoryService : ICategoryService
 
     public async Task<ApiResult> AddChild(AddChildCategoryCommand command)
     {
-        var result = await _client.PostAsJsonAsync("category/AddChild", command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.ParentId.ToString()), "ParentId");
+        formData.Add(new StringContent(command.Slug), "Slug");
+
+        formData.Add(new StringContent(command.SeoData.MetaTitle), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+
+        if (string.IsNullOrWhiteSpace(command.SeoData.Canonical) == false)
+            formData.Add(new StringContent(command.SeoData.Canonical), "SeoData.Canonical");
+
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+
+        var result = await _client.PostAsync("category/AddChild", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

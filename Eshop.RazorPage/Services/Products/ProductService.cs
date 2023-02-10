@@ -35,7 +35,6 @@ public class ProductService : IProductService
         formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
         formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
         formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
-        formData.Add(new StringContent(command.SeoData.Schema), "SeoData.Schema");
 
         var specifications = JsonConvert.SerializeObject(command.Specifications);
         formData.Add(new StringContent(specifications, Encoding.UTF8, "application/json"), "Specifications");
@@ -62,7 +61,6 @@ public class ProductService : IProductService
         formData.Add(new StringContent(command.SeoData.MetaKeyWords), "SeoData.MetaKeyWords");
         formData.Add(new StringContent(command.SeoData.MetaDescription), "SeoData.MetaDescription");
         formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
-        formData.Add(new StringContent(command.SeoData.Schema), "SeoData.Schema");
 
         var specifications = JsonConvert.SerializeObject(command.Specifications);
         formData.Add(new StringContent(specifications, Encoding.UTF8, "application/json"), "Specifications");

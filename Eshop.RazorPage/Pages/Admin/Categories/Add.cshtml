@@ -6,7 +6,7 @@
 }
 <h3>@ViewData["title"]</h3>
 
-<form class="card" method="post">
+<form class="card" method="post" enctype="multipart/form-data">
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
@@ -14,6 +14,9 @@
             </div>
             <div class="col-md-6">
                 @Html.EditorFor(f=>f.Slug)
+            </div>
+            <div class="col-md-12">
+                @Html.EditorFor(f=>f.ImageFile)
             </div>
             @Html.EditorFor(f=>f.SeoData)
         </div>

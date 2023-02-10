@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Eshop.RazorPage.Infrastructure.RazorUtils;
-using Eshop.RazorPage.Models;
 using Eshop.RazorPage.Models.Categories;
 using Eshop.RazorPage.Services.Categories;
 using Eshop.RazorPage.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Eshop.RazorPage.Pages.Admin.Categories;
 
@@ -26,7 +24,12 @@ public class AddModel : BaseRazorPage
     [Display(Name = "عنوان")]
     [Required(ErrorMessage = "{0} را وارد کنید")]
     public string Title { get; set; }
-    public SeoDataViewModel? SeoData { get; set; }
+
+    [Display(Name = "تصویر دسته بندی")]
+    [Required(ErrorMessage = "{0} را وارد کنید")]
+    public IFormFile ImageFile { get; set; }
+
+    public SeoDataViewModel SeoData { get; set; }
     public void OnGet()
     {
     }
@@ -39,7 +42,8 @@ public class AddModel : BaseRazorPage
             {
                 Title = Title,
                 Slug = Slug,
-                SeoData = SeoData.MapToSeoData()
+                SeoData = SeoData.MapToSeoData(),
+                ImageFile = ImageFile
             });
             return RedirectAndShowAlert(result, RedirectToPage("Index"));
 
@@ -50,7 +54,8 @@ public class AddModel : BaseRazorPage
             ParentId = (long)parentId,
             Title = Title,
             SeoData = SeoData.MapToSeoData(),
-            Slug = Slug
+            Slug = Slug,
+            ImageFile = ImageFile
         });
         return RedirectAndShowAlert(res, RedirectToPage("Index"));
 

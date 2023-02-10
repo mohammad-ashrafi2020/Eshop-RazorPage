@@ -25,7 +25,13 @@ public class EditModel : BaseRazorPage
     [Display(Name = "عنوان")]
     [Required(ErrorMessage = "{0} را وارد کنید")]
     public string Title { get; set; }
-    public SeoDataViewModel? SeoData { get; set; }
+    public SeoDataViewModel SeoData { get; set; }
+
+
+    [Display(Name = "تصویر دسته بندی")]
+    [Required(ErrorMessage = "{0} را وارد کنید")]
+    public IFormFile ImageFile { get; set; }
+
     public async Task<IActionResult> OnGet(long id)
     {
         var category = await _categoryService.GetCategoryById(id);
@@ -46,7 +52,8 @@ public class EditModel : BaseRazorPage
             Id = id,
             Title = Title,
             SeoData = SeoData.MapToSeoData(),
-            Slug = Slug
+            Slug = Slug,
+            ImageFile = ImageFile
         });
         return RedirectAndShowAlert(res, RedirectToPage("Index"));
     }

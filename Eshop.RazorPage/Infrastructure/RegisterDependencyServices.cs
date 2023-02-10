@@ -21,7 +21,8 @@ public static class RegisterDependencyServices
 {
     public static IServiceCollection RegisterApiServices(this IServiceCollection services)
     {
-        var baseAddress = "https://localhost:5001/api/";
+        //var baseAddress = "https://localhost:5001/api/";
+        var baseAddress = "https://shop-api.codeyad-project.ir/api/";
 
         services.AddHttpContextAccessor();
 
